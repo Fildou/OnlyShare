@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlyShare.Database.Repositories;
 
 namespace OnlyShare.Controllers;
@@ -13,7 +14,6 @@ public class WeatherForecastController : ControllerBase
     {
         _repository = repository;
     }
-
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OnlyShare.Database.Models;
 
 namespace OnlyShare.Database;
 public class DataContext : DbContext
@@ -36,4 +37,5 @@ public class DataContext : DbContext
     }
 
     public DbSet<Models.WeatherForecast> WeatherForecasts { get; set; } = default!;
+    public DbSet<User> Users { get; set; } = default!;
 }
