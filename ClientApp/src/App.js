@@ -1,16 +1,11 @@
 import React from 'react';
-
+import AppRouter from './routes/routes';
 import './custom.css';
 
-import AppRouter from './routes/routes';
-
-
 const App = () => {
-    return (
-        <>
-            <AppRouter />
-        </>
-    );
+  return (
+    <AppRouter />
+  );
 };
 
 export default App;
