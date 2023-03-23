@@ -32,7 +32,7 @@ const RegisterPage = () => {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 3000,
             });
-            //navigate("/login");
+            navigate("/login");
         } catch (error) {
             setError(error.response.data);
             toast.error(error.response.data, {
