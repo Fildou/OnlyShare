@@ -12,6 +12,7 @@ const RegisterPage = () => {
         passwordRepeat: "",
     });
     const [err, setError] = useState(null);
+
     const navigate = useNavigate();
 
     const handleInputChange = (event) => {
@@ -24,7 +25,6 @@ const RegisterPage = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setError(null);
 
         try {
             const response = await axios.post("/api/account/register", inputs);
@@ -35,6 +35,10 @@ const RegisterPage = () => {
             //navigate("/login");
         } catch (error) {
             setError(error.response.data);
+            toast.error(error.response.data, {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 3000,
+            });
         }
     };
 
