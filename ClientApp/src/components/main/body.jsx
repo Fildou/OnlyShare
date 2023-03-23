@@ -10,6 +10,7 @@ const ContentContainer = styled.div`
   margin: auto;
   margin-top: 4rem;
   padding-top: 4rem;
+  
 `;
 
 const Body = ({ children }) => {
