@@ -2,7 +2,7 @@
 import styled from "@emotion/styled";
 
 const MainContainer = styled.div`
-  background-color: ${'lightgrey'};
+  
   min-height: calc(100vh - 12rem);
 `;
 
@@ -11,6 +11,7 @@ const ContentContainer = styled.div`
   margin: auto;
   margin-top: 4rem;
   padding-top: 4rem;
+  
 `;
 
 const Body = ({ children }) => {
