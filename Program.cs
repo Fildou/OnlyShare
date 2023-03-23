@@ -1,30 +1,21 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OnlyShare;
 using OnlyShare.Database;
-using OnlyShare.Database.Repositories;
-using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
-
-builder.Services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
-
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddSwaggerGen();
-
 var appSettingsSection = builder.Configuration.GetSection("AppSettings");
-var jwtSecret = appSettingsSection.Get<AppSettings>().JwtSecret;
+var jwtSecret = appSettingsSection.Get<AppSettings>()?.JwtSecret;
 builder.Services.Configure<AppSettings>(appSettingsSection);
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+// Add services to the container.
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -37,8 +28,8 @@ builder.Services.AddAuthentication(options =>
             OnTokenValidated = context =>
             {
                 var dataContext = context.HttpContext.RequestServices.GetRequiredService<DataContext>();
-                var userId = context.Principal.Identity.Name;
-                var user = dataContext.Users.FirstOrDefault(user => user.Email == userId);
+                var userId = context.Principal?.Identity?.Name;
+                var user = dataContext.Users!.FirstOrDefault(user => user.Email == userId);
 
                 if (user == null)
                     context.Fail("Unauthorized");
@@ -51,21 +42,60 @@ builder.Services.AddAuthentication(options =>
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSecret)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSecret!)),
             ValidateIssuer = false,
             ValidateAudience = false
         };
+
+
     });
+builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.LowercaseUrls = true;
+});
 
 var app = builder.Build();
 
 using var scope = app.Services.CreateScope();
-var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+await dbContext.Database.MigrateAsync();
 
-if (dataContext == null)
-    throw new NullReferenceException("DataContext is not initialized in DI in Program.cs");
-
-dataContext.Database.Migrate();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -73,17 +103,14 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-else
-{
-    app.UseWebAssemblyDebugging();
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",
