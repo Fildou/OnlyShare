@@ -4,12 +4,10 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-const LoginPage = () => {
+const ForgotPasswordPage = () => {
   const [inputs, setInputs] = useState({
     email: "",
-    password: "",
   });
-  const [err, setError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -24,8 +22,8 @@ const LoginPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (inputs.email === "" || inputs.password === "") {
-      toast.error("Please fill in all fields", {
+    if (inputs.email === "") {
+      toast.error("Please fill in the email field", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
       });
@@ -33,17 +31,15 @@ const LoginPage = () => {
     }
 
     try {
-      const response = await axios.post("/api/account/login", inputs);
-      localStorage.setItem("token", response.data.token);
-      toast.success("Successfully logged in", {
+      await axios.post("/api/account/forgotpassword", inputs);
+      toast.success("Password reset instructions have been sent to your email", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
       });
       setTimeout(() => {
-        navigate("/");
+        navigate("/login");
       }, 3100);
     } catch (error) {
-      setError(error.response.data);
       toast.error(error.response.data, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
@@ -52,9 +48,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-page">
+    <div className="forgot-password-page">
       <ToastContainer />
-      <h2>Login</h2>
+      <h2>Forgot Password</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email:</label>
@@ -66,26 +62,10 @@ const LoginPage = () => {
             required
           />
         </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={inputs.password}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        {err && <div className="error">{err}</div>}
-        <button type="submit">Login</button>
+        <button type="submit">Submit</button>
       </form>
-      <div className="links">
-        <a href="/forgotpassword">Forgot Password?</a>
-        <br />
-        <a href="/register">Register</a>
-      </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default ForgotPasswordPage;
