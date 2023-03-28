@@ -117,11 +117,23 @@ public class AccountController : ControllerBase
         if (user == null)
             return NotFound($"Užívateľ nebol nájdený.");
 
-        // Vygenerujte token alebo jedinečný identifikátor pre obnovu hesla a uložte ho do databázy
-        // ...
+        // Generate password reset token manually
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_options.Value.JwtSecret);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[]
+            {
+            new Claim("id", user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Email)
+        }),
+            Expires = DateTime.UtcNow.AddHours(1), // Set the expiration time for the reset token
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+        var resetToken = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
 
-        // Posielanie e-mailu s inštrukciami na obnovu hesla
-        var emailResult = await _emailService.SendPasswordResetInstructions(user.Email, "your-reset-token");
+        // Send the email with the reset token
+        var emailResult = await _emailService.SendPasswordResetInstructions(user.Email, resetToken);
 
         if (!emailResult)
             return BadRequest("Nepodarilo sa odoslať e-mail s inštrukciami na obnovu hesla.");

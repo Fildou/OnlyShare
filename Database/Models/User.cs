@@ -1,6 +1,6 @@
 ﻿namespace OnlyShare.Database.Models
 {
-    public class User
+    public class User 
     {
         public Guid Id { get; set; }
 

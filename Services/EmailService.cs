@@ -1,5 +1,7 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Identity;
 using MimeKit;
+using OnlyShare.Database.Models;
 
 namespace OnlyShare.Services
 {
