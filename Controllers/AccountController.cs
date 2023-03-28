@@ -1,12 +1,15 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OnlyShare.Contracts;
+using OnlyShare.Services;
 using OnlyShare.Database;
 using OnlyShare.Database.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace OnlyShare.Controllers;
 
@@ -16,21 +19,33 @@ public class AccountController : ControllerBase
 {
     private readonly DataContext _dataContext;
     private readonly IOptions<AppSettings> _options;
+    private readonly IEmailService _emailService;
+    private readonly UserManager<IdentityUser> _userManager;
 
-    public AccountController(DataContext dataContext, IOptions<AppSettings> options)
+    public AccountController(DataContext dataContext, IOptions<AppSettings> options, IEmailService emailService, UserManager<IdentityUser> userManager)
     {
         _dataContext = dataContext;
         _options = options;
+        _emailService = emailService;
+        _userManager = userManager;
     }
 
     [HttpPost("[action]")]
     public IActionResult Register(RegisterRequest request)
     {
+        // prazdne polia
+        //if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password) || string.IsNullOrWhiteSpace(request.PasswordRepeat))
+            //return BadRequest("Žiadne pole nesmie byť prázdne.");
+        // zhoda hesiel
         if (request.Password != request.PasswordRepeat)
             return BadRequest("Passwords does not match");
-
+        // duplikovana registracia
         if (_dataContext.Users != null && _dataContext.Users.Any(user => user.Email == request.Email))
             return BadRequest($"Uživatel s emailem {request.Email} je již registrován");
+        // spravny format mailu
+        var emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+        if (!emailRegex.IsMatch(request.Email))
+            return BadRequest("Neplatný formát e-mailu");
 
         var (passwordSalt, passwordHash) = CreatePasswordHash(request.Password);
 
@@ -64,7 +79,7 @@ public class AccountController : ControllerBase
         var user = _dataContext.Users!.FirstOrDefault(user => request.Email == user.Email);
 
         if (user == null)
-            return NotFound($"Uživatel ${request.Email} nenalezen.");
+            return NotFound($"Uživatel nenalezen.");
 
         if (VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt) == false)
             return BadRequest("Neplatné přihlášení");
@@ -91,7 +106,54 @@ public class AccountController : ControllerBase
         return Ok(new LoginResponse { Token = tokenString });
     }
 
-    private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
+    [HttpPost("[action]")]
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Email))
+            return BadRequest("E-mail nesmie byť prázdny.");
+
+        var user = _dataContext.Users!.FirstOrDefault(u => u.Email == request.Email);
+
+        if (user == null)
+            return NotFound($"Užívateľ nebol nájdený.");
+
+        // Vygenerujte token alebo jedinečný identifikátor pre obnovu hesla a uložte ho do databázy
+        // ...
+
+        // Posielanie e-mailu s inštrukciami na obnovu hesla
+        var emailResult = await _emailService.SendPasswordResetInstructions(user.Email, "your-reset-token");
+
+        if (!emailResult)
+            return BadRequest("Nepodarilo sa odoslať e-mail s inštrukciami na obnovu hesla.");
+
+        return Ok("Inštrukcie na obnovu hesla boli odoslané na váš e-mail.");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var user = await _userManager.FindByEmailAsync(request.Email);
+        if (user == null)
+        {
+            return BadRequest("Invalid email address.");
+        }
+
+        var resetResult = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
+        if (!resetResult.Succeeded)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error resetting password.");
+        }
+
+        return Ok("Password has been successfully reset.");
+    }
+
+
+private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
     {
         if (storedHash.Length != 64)
             throw new ArgumentException("Invalid length of password hash (64 bytes expected).", nameof(storedHash));

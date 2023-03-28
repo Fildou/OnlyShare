@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-const LoginPage = () => {
+const ResetPasswordPage = () => {
   const [inputs, setInputs] = useState({
-    email: "",
     password: "",
+    confirmPassword: "",
   });
-  const [err, setError] = useState(null);
 
   const navigate = useNavigate();
+  const { token } = useParams();
 
   const handleInputChange = (event) => {
     event.persist();
@@ -24,8 +24,16 @@ const LoginPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (inputs.email === "" || inputs.password === "") {
-      toast.error("Please fill in all fields", {
+    if (inputs.password === "" || inputs.confirmPassword === "") {
+      toast.error("Please fill in both password fields", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    if (inputs.password !== inputs.confirmPassword) {
+      toast.error("Passwords do not match", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
       });
@@ -33,17 +41,19 @@ const LoginPage = () => {
     }
 
     try {
-      const response = await axios.post("/api/account/login", inputs);
-      localStorage.setItem("token", response.data.token);
-      toast.success("Successfully logged in", {
+        await axios.post("/api/resetpassword", {
+            token,
+            email: new URLSearchParams(window.location.search).get("email"),
+            password: inputs.password,
+          });
+      toast.success("Your password has been successfully reset", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
       });
       setTimeout(() => {
-        navigate("/");
+        navigate("/login");
       }, 3100);
     } catch (error) {
-      setError(error.response.data);
       toast.error(error.response.data, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
@@ -52,22 +62,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-page">
+    <div className="reset-password-page">
       <ToastContainer />
-      <h2>Login</h2>
+      <h2>Reset Password</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={inputs.email}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Password:</label>
+          <label>New Password:</label>
           <input
             type="password"
             name="password"
@@ -76,16 +76,20 @@ const LoginPage = () => {
             required
           />
         </div>
-        {err && <div className="error">{err}</div>}
-        <button type="submit">Login</button>
+        <div className="form-group">
+          <label>Confirm New Password:</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={inputs.confirmPassword}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <button type="submit">Submit</button>
       </form>
-      <div className="links">
-        <a href="/forgotpassword">Forgot Password?</a>
-        <br />
-        <a href="/register">Register</a>
-      </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default ResetPasswordPage;

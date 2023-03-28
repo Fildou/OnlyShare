@@ -1,6 +1,6 @@
 ﻿import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
@@ -32,7 +32,9 @@ const RegisterPage = () => {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 3000,
             });
-            navigate("/login");
+            setTimeout(() => {
+                navigate("/login");
+            }, 3100);
         } catch (error) {
             setError(error.response.data);
             toast.error(error.response.data, {
@@ -44,6 +46,7 @@ const RegisterPage = () => {
 
     return (
         <div className="register-page">
+            <ToastContainer />
             <h2>Register</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
