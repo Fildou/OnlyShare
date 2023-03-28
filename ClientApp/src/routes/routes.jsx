@@ -23,7 +23,7 @@ const AppRouter = () => {
                     <Route path="/createQuestion" element={<CreateQuestion />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
-                    <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+                    <Route path="/reset-password" element={<ResetPasswordPage />} />
                 </Routes>
             </Layout>
         </BrowserRouter>
