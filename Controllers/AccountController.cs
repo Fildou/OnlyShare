@@ -35,7 +35,7 @@ public class AccountController : ControllerBase
     {
         // prazdne polia
         //if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password) || string.IsNullOrWhiteSpace(request.PasswordRepeat))
-            //return BadRequest("Žiadne pole nesmie byť prázdne.");
+        //return BadRequest("Žiadne pole nesmie byť prázdne.");
         // zhoda hesiel
         if (request.Password != request.PasswordRepeat)
             return BadRequest("Passwords does not match");
@@ -141,7 +141,7 @@ public class AccountController : ControllerBase
         return Ok("Inštrukcie na obnovu hesla boli odoslané na váš e-mail.");
     }
 
-    [HttpPost]
+    [HttpPost("[action]")]
     public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
     {
         if (!ModelState.IsValid)
@@ -149,14 +149,8 @@ public class AccountController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var user = await _userManager.FindByEmailAsync(request.Email);
-        if (user == null)
-        {
-            return BadRequest("Invalid email address.");
-        }
-
-        var resetResult = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
-        if (!resetResult.Succeeded)
+        var resetResult = await ResetUserPassword(request.Email, request.Token, request.Password);
+        if (!resetResult)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, "Error resetting password.");
         }
@@ -165,7 +159,7 @@ public class AccountController : ControllerBase
     }
 
 
-private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
+    private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
     {
         if (storedHash.Length != 64)
             throw new ArgumentException("Invalid length of password hash (64 bytes expected).", nameof(storedHash));
@@ -178,6 +172,46 @@ private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[
         {
             if (computedHash[i] != storedHash[i]) return false;
         }
+
+        return true;
+    }
+
+    private async Task<bool> ResetUserPassword(string email, string token, string newPassword)
+    {
+        var user = _dataContext.Users.FirstOrDefault(u => u.Email == email);
+        if (user == null)
+        {
+            return false;
+        }
+
+        // ověřte platnost resetovacího tokenu
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_options.Value.JwtSecret);
+        var validationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.Zero
+        };
+
+        try
+        {
+            tokenHandler.ValidateToken(token, validationParameters, out _);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+
+        // aktualizujte heslo
+        var (passwordSalt, passwordHash) = CreatePasswordHash(newPassword);
+        user.PasswordHash = passwordHash;
+        user.PasswordSalt = passwordSalt;
+
+        _dataContext.Update(user);
+        await _dataContext.SaveChangesAsync();
 
         return true;
     }

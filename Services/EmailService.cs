@@ -22,7 +22,7 @@ namespace OnlyShare.Services
 
             message.Body = new TextPart("plain")
             {
-                Text = $"To reset your password, please click on the following link: https://cngroup-utb--2023-os-amundsen.azurewebsites.net/reset-password?token={resetToken}"
+                Text = $"To reset your password, please click on the following link: https://localhost:44443/reset-password?token={resetToken}&email={email}"
             };
 
             // Nastavte údaje pre pripojenie k serveru SMTP

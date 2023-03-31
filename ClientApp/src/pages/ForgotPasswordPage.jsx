@@ -38,7 +38,7 @@ const ForgotPasswordPage = () => {
       });
       setTimeout(() => {
         navigate("/login");
-      }, 3100);
+      }, 1000);
     } catch (error) {
       toast.error(error.response.data, {
         position: toast.POSITION.TOP_CENTER,

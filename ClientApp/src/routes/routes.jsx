@@ -7,25 +7,25 @@ import LoginPage from "../pages/LoginPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 
-
-
 import { Layout } from "../components/main/layout";
+import { AuthProvider } from "../middleware/authContext";
 
 const AppRouter = () => {
-
     return (
         <BrowserRouter>
-            <Layout>
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
-                    <Route path="/reset-password" element={<ResetPasswordPage />} />
-                </Routes>
-            </Layout>
+            <AuthProvider>
+                <Layout>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/register" element={<RegisterPage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
+                        <Route path="/reset-password" element={<ResetPasswordPage />} />
+                    </Routes>
+                </Layout>
+            </AuthProvider>
         </BrowserRouter>
-    )
-}
+    );
+};
 
 export default AppRouter;
