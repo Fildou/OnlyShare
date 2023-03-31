@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { useAuth } from "../middleware/authContext";
 
 const LoginPage = () => {
   const [inputs, setInputs] = useState({
@@ -12,6 +13,7 @@ const LoginPage = () => {
   const [err, setError] = useState(null);
 
   const navigate = useNavigate();
+  const { toggleLogin } = useAuth();
 
   const handleInputChange = (event) => {
     event.persist();
@@ -39,9 +41,10 @@ const LoginPage = () => {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
       });
+      toggleLogin();
       setTimeout(() => {
         navigate("/");
-      }, 3100);
+      }, 1000);
     } catch (error) {
       setError(error.response.data);
       toast.error(error.response.data, {

@@ -5,14 +5,15 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 const ResetPasswordPage = () => {
-  const [inputs, setInputs] = useState({
-    password: "",
-    confirmPassword: "",
-  });
-
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const token = searchParams.get('token');
+    const [inputs, setInputs] = useState({
+      password: "",
+      confirmPassword: "",
+    });
+  
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get('token');
+    const email = searchParams.get('email');
 
   const handleInputChange = (event) => {
     event.persist();
@@ -42,9 +43,10 @@ const ResetPasswordPage = () => {
     }
 
     try {
-        await axios.post("/api/resetpassword", {
+        console.log(token, email, inputs.password);
+        await axios.post("/api/account/resetpassword", {
             token,
-            email: new URLSearchParams(window.location.search).get("email"),
+            email,
             password: inputs.password,
           });
       toast.success("Your password has been successfully reset", {
@@ -53,7 +55,7 @@ const ResetPasswordPage = () => {
       });
       setTimeout(() => {
         navigate("/login");
-      }, 3100);
+      }, 1000);
     } catch (error) {
       toast.error(error.response.data, {
         position: toast.POSITION.TOP_CENTER,

@@ -34,7 +34,7 @@ const RegisterPage = () => {
             });
             setTimeout(() => {
                 navigate("/login");
-            }, 3100);
+            }, 1000);
         } catch (error) {
             setError(error.response.data);
             toast.error(error.response.data, {
