@@ -16,7 +16,7 @@ const ContentContainer = styled.div`
 const Body = ({ children }) => {
     return (
         <>
-            <MainContainer>
+            <MainContainer className="mb-5">
                 <ContentContainer>{children}</ContentContainer>
             </MainContainer>
         </>
