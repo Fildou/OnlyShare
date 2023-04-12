@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./ForgotPasswordPage.css"
 import axios from "axios";
 
 const ForgotPasswordPage = () => {
@@ -62,7 +63,7 @@ const ForgotPasswordPage = () => {
             required
           />
         </div>
-        <button type="submit">Submit</button>
+        <button className="button-forgot" type="submit">Submit</button>
       </form>
     </div>
   );

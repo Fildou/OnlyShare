@@ -37,6 +37,7 @@
     align-items: center;
     background-color: #6411ad;
     padding: 10px;
+    justify-content: flex-end;
   }
   
   
@@ -78,9 +79,9 @@
     font-size: 16px;
     font-weight: bold;
   }
+  
   .searchbar{
     width: 500px;
-    margin-right: 450px;
   }
   .searchbtn{
     background-color: white;
@@ -101,6 +102,7 @@
     border-radius: 0;
     border: none;
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+    
   }
   .dropdown:hover{
     color: aliceblue;
@@ -116,25 +118,50 @@
     margin-right: 0.5rem;
     width: 35px;
   }
-  .input-group {
-    margin-right: auto;
-    margin-left: auto;
-    max-width: 400px; /* adjust as needed */
-  }
-  .navbar-brand {
-    align-items: center;
-    display: flex;
-  }
   
-  .search-and-dropdown {
-    align-items: center;
-    display: flex;
-  }
-  
-  @media (max-width: 767.98px) {
-    .navbar-brand,
-    .search-and-dropdown {
-      flex-basis: 100%;
-      justify-content: center;
+  @media (max-width: 768px) {
+    .searchbar {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .navbar {
+      flex-direction: column;
     }
   }
+  
+  @media (min-width: 769px) {
+    .navbar .searchbar-wrapper {
+      display: flex;
+      flex-grow: 1;
+      justify-content: flex-end;
+      margin-right: 33.5%;
+    }
+  }
+ 
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+@media (min-width: 600px) {
+  .onlyshare {
+    font-size: 18px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media (min-width: 768px) {
+  .onlyshare {
+    font-size: 24px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media (min-width: 992px) {
+  .onlyshare {
+    font-size: 28px;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .onlyshare {
+    font-size: 32px;
+  }
+}

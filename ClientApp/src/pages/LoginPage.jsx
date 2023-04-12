@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import "./LoginPage.css"
 import { useAuth } from "../middleware/authContext";
 
 const LoginPage = () => {
@@ -80,13 +81,16 @@ const LoginPage = () => {
           />
         </div>
         {err && <div className="error">{err}</div>}
-        <button type="submit">Login</button>
-      </form>
-      <div className="links">
+        <button className="button-login" type="submit">Login</button>
+        <div className="links">
+
         <a href="/forgotpassword">Forgot Password?</a>
         <br />
         <a href="/register">Register</a>
+        
       </div>
+      </form>
+    
     </div>
   );
 };

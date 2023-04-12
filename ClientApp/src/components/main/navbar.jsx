@@ -1,21 +1,14 @@
 ﻿import React, { useState } from "react";
 import {
-  Collapse,
   Navbar,
   NavbarBrand,
-  NavbarToggler,
-  NavItem,
-  NavLink,
-  Nav,
   InputGroup,
-  InputGroupAddon,
   InputGroupText,
   Input,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Container,
 } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
@@ -44,15 +37,16 @@ function NavMenu() {
 
   return (
     <header>
+
       <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light>
 
           <NavbarBrand tag={Link} to="/" className="onlyshare">
               OnlyShare
           </NavbarBrand>
-          <NavbarToggler onClick={toggleNavbar} className="mr-2" />
-          <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
-            <Nav>
-            <NavItem className="searchbar">
+         
+
+        
+          <div className="searchbar-wrapper">
             <InputGroup className="searchbar">
                 <Input className="search" placeholder="Search" />
                 <InputGroupText addonType="append">
@@ -61,11 +55,12 @@ function NavMenu() {
                     </button>
                 </InputGroupText>
                 </InputGroup>
-              </NavItem>
-              <NavItem>
-                <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+            </div>
+
+              
+                <Dropdown   isOpen={dropdownOpen} toggle={toggleDropdown}>
                   <DropdownToggle caret>
-                    {isLoggedIn ? "Account" : ""}
+                   
                     <img src={require("../resources/user.png")} alt="icon" />
                   </DropdownToggle>
                   <DropdownMenu right>
@@ -88,9 +83,9 @@ function NavMenu() {
                     )}
                   </DropdownMenu>
                 </Dropdown>
-              </NavItem>
-            </Nav>
-          </Collapse>
+              
+           
+          
       </Navbar>
     </header>
   );

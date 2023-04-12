@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./Register.css"
 import axios from "axios";
 
 const RegisterPage = () => {
@@ -90,7 +91,7 @@ const RegisterPage = () => {
                     />
                 </div>
                 {err && <div className="error">{err}</div>}
-                <button type="submit">Register</button>
+                <button className="button-register" type="submit">Register</button>
             </form>
         </div>
     );
