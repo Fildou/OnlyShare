@@ -10,12 +10,13 @@ const ContentContainer = styled.div`
   margin: auto;
   margin-top: 4rem;
   padding-top: 4rem;
+  
 `;
 
 const Body = ({ children }) => {
     return (
         <>
-            <MainContainer>
+            <MainContainer className="mb-5">
                 <ContentContainer>{children}</ContentContainer>
             </MainContainer>
         </>
