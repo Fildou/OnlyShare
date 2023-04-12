@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, {useContext} from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import HomePage from "../pages/HomePage";
@@ -19,8 +19,8 @@ const AppRouter = () => {
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/createQuestion" element={<CreateQuestion />} />
-                    <Route path="/login" element={<LoginPage />} />
+                        <Route path="/createQuestion" element={<CreateQuestion />} />
+                        <Route path="/login" element={<LoginPage />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
                         <Route path="/reset-password" element={<ResetPasswordPage />} />
