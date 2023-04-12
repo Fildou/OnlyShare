@@ -6,7 +6,7 @@ import axios from "axios";
 
 const RegisterPage = () => {
     const [inputs, setInputs] = useState({
-        name: "",
+        username: "",
         email: "",
         password: "",
         passwordRepeat: "",
@@ -50,11 +50,11 @@ const RegisterPage = () => {
             <h2>Register</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Name:</label>
+                    <label>UserName:</label>
                     <input
                         type="text"
-                        name="name"
-                        value={inputs.name}
+                        name="username"
+                        value={inputs.username}
                         onChange={handleInputChange}
                         required
                     />

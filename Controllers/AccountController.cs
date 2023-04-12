@@ -9,7 +9,10 @@ using OnlyShare.Contracts;
 using OnlyShare.Services;
 using OnlyShare.Database;
 using OnlyShare.Database.Models;
+using OnlyShare.Database.Repositories;
 using Microsoft.AspNetCore.Identity;
+using FluentValidation.Results;
+using System.Linq;
 
 namespace OnlyShare.Controllers;
 
@@ -33,19 +36,13 @@ public class AccountController : ControllerBase
     [HttpPost("[action]")]
     public IActionResult Register(RegisterRequest request)
     {
-        // prazdne polia
-        //if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password) || string.IsNullOrWhiteSpace(request.PasswordRepeat))
-        //return BadRequest("Žiadne pole nesmie byť prázdne.");
-        // zhoda hesiel
-        if (request.Password != request.PasswordRepeat)
-            return BadRequest("Passwords does not match");
-        // duplikovana registracia
-        if (_dataContext.Users != null && _dataContext.Users.Any(user => user.Email == request.Email))
-            return BadRequest($"Uživatel s emailem {request.Email} je již registrován");
-        // spravny format mailu
-        var emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-        if (!emailRegex.IsMatch(request.Email))
-            return BadRequest("Neplatný formát e-mailu");
+
+        var validator = new RegisterRequestValidator();
+        var validationResult = validator.Validate(request);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+        }
 
         var (passwordSalt, passwordHash) = CreatePasswordHash(request.Password);
 
@@ -78,11 +75,13 @@ public class AccountController : ControllerBase
     {
         var user = _dataContext.Users!.FirstOrDefault(user => request.Email == user.Email);
 
-        if (user == null)
-            return NotFound($"Uživatel nenalezen.");
+        var validator = new LoginRequestValidator();
+        var validationResult = validator.Validate(request);
 
-        if (VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt) == false)
-            return BadRequest("Neplatné přihlášení");
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+        }
 
 
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -109,8 +108,13 @@ public class AccountController : ControllerBase
     [HttpPost("[action]")]
     public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest request)
     {
-        if (string.IsNullOrWhiteSpace(request.Email))
-            return BadRequest("E-mail nesmie byť prázdny.");
+        var validator = new ForgotPasswordRequestValidator();
+        var validationResult = validator.Validate(request);
+
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+        }
 
         var user = _dataContext.Users!.FirstOrDefault(u => u.Email == request.Email);
 

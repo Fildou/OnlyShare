@@ -7,7 +7,8 @@ using OnlyShare.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using OnlyShare.Database.Repositories;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,7 +54,6 @@ builder.Services.AddAuthentication(options =>
 
     });
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
 
@@ -92,6 +92,12 @@ builder.Services.Configure<RouteOptions>(options =>
 {
     options.LowercaseUrls = true;
 });
+
+
+
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 var app = builder.Build();
 

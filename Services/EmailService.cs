@@ -1,17 +1,19 @@
 ﻿using MailKit.Net.Smtp;
-using Microsoft.AspNetCore.Identity;
 using MimeKit;
-using OnlyShare.Database.Models;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace OnlyShare.Services
 {
-    public interface IEmailService
-    {
-        Task<bool> SendPasswordResetInstructions(string email, string resetToken);
-    }
-
     public class EmailService : IEmailService
     {
+        private readonly AppSettings _appSettings;
+
+        public EmailService(IOptions<AppSettings> appSettings)
+        {
+            _appSettings = appSettings.Value;
+        }
+
         public async Task<bool> SendPasswordResetInstructions(string email, string resetToken)
         {
             // Vytvorte správu
@@ -22,7 +24,7 @@ namespace OnlyShare.Services
 
             message.Body = new TextPart("plain")
             {
-                Text = $"To reset your password, please click on the following link: https://localhost:44443/reset-password?token={resetToken}&email={email}"
+                Text = string.Format(_appSettings.PasswordResetLink, resetToken, email)
             };
 
             // Nastavte údaje pre pripojenie k serveru SMTP
