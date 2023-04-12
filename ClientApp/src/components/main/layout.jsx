@@ -1,6 +1,6 @@
 ﻿import NavBar from "./navbar";
 import Body from "./body"
-
+import Footer from "./footer"
 export const Layout = ({children}) => {
     return (
         <>
@@ -8,6 +8,7 @@ export const Layout = ({children}) => {
             <Body>
                 {children}
             </Body>
+            <Footer/>
         </>
     );
 };
