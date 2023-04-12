@@ -19,7 +19,7 @@ const HomePage = () => {
       id: 2,
       title: "Ako sa robi v QGIS????",
       text: "Tento program je robený v QT, pre BOHA prečo? A ešt nás v tom nútia robiť, no ja to fakt už nadávam na tejto škole. Proste kde sa dáva tá odhláška. Ja to tam podám lebo toto sa fakt nedá. ZMENÍM TO. AJ KEBY SOM MAL SMEŤÁRA ROBIŤ.",
-      date: "03/092023"
+      date: "03/09/2023"
     },
     {
       id: 3,
@@ -35,6 +35,7 @@ const HomePage = () => {
     },
   ];
 
+  
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -48,6 +49,15 @@ const HomePage = () => {
     fetchQuestions();
   }, []);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    });
+};
+
   const allPosts = [...questions, ...posts].sort((a, b) => b.id - a.id);
 
   return (
@@ -59,7 +69,7 @@ const HomePage = () => {
             <CardComponent
               title={post.title}
               text={post.text || post.description}
-              date={post.date}
+              date={formatDate(post.date || post.createdAt)}
               postId={post.id}
             />
           </Col>
