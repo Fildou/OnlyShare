@@ -26,10 +26,7 @@ namespace OnlyShare.Contracts
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Password is required.")
-                .MinimumLength(6).WithMessage("Password must be at least 6 characters long.")
-                .Matches("[A-Za-z]").WithMessage("Password must contain at least one letter.")
-                .Matches("[0-9]").WithMessage("Password must contain at least one digit.")
-                .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character.");
+                .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
 
             RuleFor(x => x.PasswordRepeat)
                 .NotEmpty().WithMessage("Password confirmation is required.")

@@ -1,10 +1,13 @@
-﻿import React from "react";
+﻿import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import CardComponent from "../components/main/card";
-import "./HomePage.css"
+import "./HomePage.css";
 import "../components/main/card.css";
+import axios from "axios";
 
 const HomePage = () => {
+  const [questions, setQuestions] = useState([]);
+
   const posts = [
     {
       id: 1,
@@ -32,13 +35,33 @@ const HomePage = () => {
     },
   ];
 
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await axios.get("/api/questions");
+        setQuestions(response.data);
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
+
+  const allPosts = [...questions, ...posts].sort((a, b) => b.id - a.id);
+
   return (
     <Container>
       <h1 className="posts-heading">Posts</h1>
       <Row>
-        {posts.map((post) => (
+        {allPosts.map((post) => (
           <Col key={post.id} md="12" className="mb-4">
-            <CardComponent title={post.title} text={post.text} date={post.date} postId={post.id} />
+            <CardComponent
+              title={post.title}
+              text={post.text || post.description}
+              date={post.date}
+              postId={post.id}
+            />
           </Col>
         ))}
       </Row>
