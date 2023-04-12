@@ -16,14 +16,14 @@ import { useAuth } from "../../middleware/authContext";
 
 
 function NavMenu() {
-  const [collapsed, setCollapsed] = useState(true);
+  //const [collapsed, setCollapsed] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { isLoggedIn, toggleLogin } = useAuth();
   const navigate = useNavigate();
 
-  function toggleNavbar() {
-    setCollapsed(!collapsed);
-  }
+  //function toggleNavbar() {
+    //setCollapsed(!collapsed);
+  //}
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -43,9 +43,7 @@ function NavMenu() {
           <NavbarBrand tag={Link} to="/" className="onlyshare">
               OnlyShare
           </NavbarBrand>
-         
 
-        
           <div className="searchbar-wrapper">
             <InputGroup className="searchbar">
                 <Input className="search" placeholder="Search" />
@@ -57,10 +55,14 @@ function NavMenu() {
                 </InputGroup>
             </div>
 
-              
+            {isLoggedIn && (
+              <a href="/createQuestion">
+                CREATE QUESTION
+              </a>
+            )}
+
                 <Dropdown   isOpen={dropdownOpen} toggle={toggleDropdown}>
                   <DropdownToggle caret>
-                   
                     <img src={require("../resources/user.png")} alt="icon" />
                   </DropdownToggle>
                   <DropdownMenu right>

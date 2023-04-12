@@ -36,7 +36,8 @@ public class AccountController : ControllerBase
     [HttpPost("[action]")]
     public IActionResult Register(RegisterRequest request)
     {
-
+        if (_dataContext.Users != null && _dataContext.Users.Any(user => user.Email == request.Email))
+            return BadRequest($"Uživatel s emailem {request.Email} je již registrován");
         var validator = new RegisterRequestValidator();
         var validationResult = validator.Validate(request);
         if (!validationResult.IsValid)
