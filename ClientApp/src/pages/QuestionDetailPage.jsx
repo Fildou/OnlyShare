@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Button, Form, FormGroup, Input, Label, FormText } from "reactstrap";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
+import "./QuestionDetailPage.css";
 
 const QuestionDetailPage = () => {
   const { postId } = useParams();
@@ -24,15 +28,61 @@ const QuestionDetailPage = () => {
     return <div>Loading...</div>;
   }
  
-
   return (
-    <div>
-      <h1>{post.title}</h1><br></br>
-      <p>{post.text}</p><br></br>
-      <p>{post.description}</p><br></br>
-      <p>{post.createdAt}</p><br></br>
+    <div  className="container form-create">
+      <h1>Question detail</h1>
+      <Form>
+
+        <FormGroup>
+          <Label>Title</Label>
+          <Input disabled
+            type="form-label"
+            name="title"
+            id="title"
+            placeholder={post.title}/>
+        </FormGroup>
+
+        <FormGroup>
+          <Label for="description">Description</Label>
+          <Input disabled
+            type="textarea"
+            name="description"
+            id="description"
+            placeholder={post.description}/>
+        </FormGroup>
+
+        <FormGroup>
+          <Label for="description">Napíšte komentar</Label>
+          
+          <Input 
+            type="textarea"
+            name="description"
+            id="description"
+            placeholder="Sem napíšte komentár"/>
+            <Button  className="">
+            Pridať komentár
+           </Button>
+          </FormGroup>
+
+
+
+          <FormGroup>
+            <Label for="description">Komentáre</Label>
+            <Input disabled
+              type="textarea"
+              name="description"
+              id="description"
+              placeholder="Komentár"/>
+          </FormGroup>
+
+        
+      </Form>
+      <ToastContainer />
     </div>
   );
+
+
 };
 
 export default QuestionDetailPage;
+

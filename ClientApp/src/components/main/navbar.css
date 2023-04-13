@@ -165,3 +165,29 @@
     font-size: 32px;
   }
 }
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+
+
+.create-question-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  margin-right: 1rem;
+}
+
+.create-question-icon {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 2rem;
+}
+
+.create-question-icon img {
+  height: 35px;
+  width: 35px;
+}
