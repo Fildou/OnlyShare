@@ -7,6 +7,7 @@ import CreateQuestion from "../pages/CreateQuestion";
 import LoginPage from "../pages/LoginPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
+import QuestionDetailPage from "../pages/QuestionDetailPage";
 
 import { Layout } from "../components/main/layout";
 import { AuthProvider } from "../middleware/authContext";
@@ -22,6 +23,7 @@ const AppRouter = () => {
                         <Route path="/createQuestion" element={<CreateQuestion />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/login" element={<LoginPage />} />
+                        <Route path="/post/:postId" element={<QuestionDetailPage />} />
                         <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
                         <Route path="/reset-password" element={<ResetPasswordPage />} />
                     </Routes>

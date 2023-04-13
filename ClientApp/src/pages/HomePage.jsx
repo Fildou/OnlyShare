@@ -69,7 +69,7 @@ const HomePage = () => {
             <CardComponent
               title={post.title}
               text={post.text || post.description}
-              date={formatDate(post.date || post.createdAt)}
+              date={formatDate(post .date || post.createdAt)}
               postId={post.id}
             />
           </Col>
