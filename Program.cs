@@ -22,6 +22,7 @@ builder.Services.Configure<AppSettings>(appSettingsSection);
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
+
 // Add services to the container.
 builder.Services.AddAuthentication(options =>
 {
