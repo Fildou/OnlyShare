@@ -139,9 +139,8 @@ import CommentComponent from "../components/main/comment";
 
             {comments.map((comment) =>(
               <CommentComponent
-              title={comment.id}
+              title={formatDate(comment.createdAt)}
               text={comment.content}
-              date={formatDate(comment.createdAt)}
             />
             ))}
 
