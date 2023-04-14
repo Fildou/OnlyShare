@@ -108,6 +108,10 @@ builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<IQuestionQueryService, QuestionQueryService>();
 builder.Services.AddScoped<IQuestionCommandService, QuestionCommandService>();
 
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ICommentQuerryService, CommentQuerryService>();
+builder.Services.AddScoped<ICommentCommandService, CommentCommandService>();
+
 var app = builder.Build();
 
 using var scope = app.Services.CreateScope();

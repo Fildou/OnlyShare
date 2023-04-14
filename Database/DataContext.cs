@@ -19,5 +19,6 @@ public class DataContext : DbContext
 
     public DbSet<Models.WeatherForecast> WeatherForecasts { get; set; } = default!;
     public DbSet<Question> Questions { get; set; } = default!;
+    public DbSet<Comment> Comments { get; set; } = default!;
     public DbSet<User> Users => Set<User>();
 }
