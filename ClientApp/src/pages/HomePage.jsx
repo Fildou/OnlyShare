@@ -37,6 +37,8 @@ const HomePage = () => {
 
   const allPosts = [...questions, ...posts].sort((a, b) => b.id - a.id);
 
+  console.log(allPosts)
+
   return (
     <Container>
       <h1 className="posts-heading">Posts</h1>
@@ -46,7 +48,7 @@ const HomePage = () => {
             <CardComponent
               title={post.title}
               text={post.text || post.description}
-              date={formatDate(post .date || post.createdAt)}
+              date={formatDate(post.date || post.createdAt)}
               postId={post.id}
             />
           </Col>
