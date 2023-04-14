@@ -7,6 +7,7 @@
   import "react-toastify/dist/ReactToastify.css";
   import { useNavigate, useParams } from "react-router-dom";
   import "./QuestionDetailPage.css";
+import CommentComponent from "../components/main/comment";
 
 
   const QuestionDetailPage = () => {
@@ -136,22 +137,10 @@
             </Button>
             </FormGroup>
 
-
-
-            <FormGroup>
-              <Label for="description">Komentáre</Label>
-              <Input disabled
-                type="textarea"
-                name="description"
-                id="description"
-                placeholder="Komentár"/>
-            </FormGroup>
-
             {comments.map((comment) =>(
-              <CardComponent
-              title={comment.id}
+              <CommentComponent
+              title={formatDate(comment.createdAt)}
               text={comment.content}
-              date={formatDate(comment.createdAt)}
             />
             ))}
 
