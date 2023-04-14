@@ -1,0 +1,33 @@
+.card {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  max-width: 500px; 
+  margin: 0 auto;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.card-subtitle {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+  margin-right: 50px;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-text {
+  margin-bottom: 1rem;
+}
+
+.card-link {
+  display: block;
+  margin-top: 1rem;
+}

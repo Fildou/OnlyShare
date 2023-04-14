@@ -24,6 +24,7 @@ const AppRouter = () => {
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/post/:postId" element={<QuestionDetailPage />} />
+                        <Route path="/comment/:commentId" element={<QuestionDetailPage />} />
                         <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
                         <Route path="/reset-password" element={<ResetPasswordPage />} />
                     </Routes>
