@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardBody, CardSubtitle, CardText, CardTitle, CardLink } from "reactstrap";
 
-const CardComponent = ({ title, text, date, postId }) => {
+const CardComponent = ({username, title, text, date, postId }) => {
   return (
     <Card className="card">
       <CardBody className="card-body">
@@ -10,7 +10,10 @@ const CardComponent = ({ title, text, date, postId }) => {
           <CardSubtitle className="card-subtitle mb-2 text-muted">{date}</CardSubtitle>
         </div>
         <CardText className="card-text">{`${text.substring(0, 100)}...`}</CardText>
-        <CardLink href={`/post/${postId}`} className="card-link">Read More</CardLink>
+        <div className="d-flex align-items-baseline justify-content-between">
+          <CardLink href={`/post/${postId}`} className="card-link">Read More</CardLink>
+          <CardText>Created by user: {username}</CardText>
+        </div>
       </CardBody>
     </Card>
   );

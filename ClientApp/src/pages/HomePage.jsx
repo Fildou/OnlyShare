@@ -16,7 +16,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get("/api/questions");
+        const response = await axios.get("/api/questions/getquestions");
         setQuestions(response.data);
       } catch (error) {
         console.error("Error fetching questions:", error);
@@ -47,6 +47,7 @@ const HomePage = () => {
           <Col key={post.id} md="12" className="mb-4">
             <CardComponent
               title={post.title}
+              username={post.createdByUserName}
               text={post.text || post.description}
               date={formatDate(post.date || post.createdAt)}
               postId={post.id}

@@ -6,6 +6,6 @@ public class Question
     public string? Title { get; set; }
     public string? Description { get; set; }
     public DateTime CreatedAt { get; set; }
-    public Guid CreatedById { get; set; } = Guid.NewGuid();
+    public Guid CreatedById { get; set; }
     public User? CreatedBy { get; set; }
 }
