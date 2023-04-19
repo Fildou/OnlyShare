@@ -58,7 +58,7 @@ import CommentComponent from "../components/main/comment";
       const fetchPost = async () => {
         try {
           setQuestion(postId)
-          const response = await axios.get(`/api/questions`);
+          const response = await axios.get(`/api/questions/getquestions`);
           const post = response.data.find((p) => p.id === postId);
           setPost(post);
         } catch (error) {

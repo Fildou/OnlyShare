@@ -1,10 +1,8 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OnlyShare.Contracts;
-using OnlyShare.Database;
 using OnlyShare.Services.CommandService;
 using OnlyShare.Services.QueryService;
 
@@ -17,11 +15,9 @@ public class QuestionsController : ControllerBase
 {
     private readonly IQuestionCommandService _questionCommandService;
     private readonly IQuestionQueryService _questionQueryService;
-    private DataContext _context;
     
-    public QuestionsController(IQuestionCommandService questionCommandService, IQuestionQueryService questionQueryService, DataContext context)
+    public QuestionsController(IQuestionCommandService questionCommandService, IQuestionQueryService questionQueryService)
     {
-        _context = context;
         _questionCommandService = questionCommandService;
         _questionQueryService = questionQueryService;
     }
@@ -49,11 +45,42 @@ public class QuestionsController : ControllerBase
         return BadRequest("userId is null");
     }
 
-    [HttpGet]
-    public async Task<ActionResult<List<GetQuestionResponse>>> GetQuestions()
+    [HttpGet("[action]")]
+    public async Task<ActionResult<List<GetQuestionResponse>>> GetQuestions([FromQuery] string? searchTerm = null)
     {
-        var responses = await _questionQueryService.GetAllQuestionsAsync();
+        if (searchTerm.IsNullOrEmpty())
+        {
+            var responses = await _questionQueryService.GetAllQuestionsAsync();
+            return Ok(responses);
+        }
+
+        var validator = new GetQuestionsBySearchTermRequestValidator();
+        var validationResult = await validator.ValidateAsync(new GetQuestionsBySearchTermRequest() { SearchTerm = searchTerm });
+
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        var response = await _questionQueryService.GetQuestionsBySearchTermAsync(new GetQuestionsBySearchTermRequest() { SearchTerm = searchTerm });
+
+        return Ok(response);
+    }
+
+    [HttpGet("[action]")]
+    public async Task<ActionResult<List<GetQuestionResponse>>> GetQuestionsByUserId()
+    {
+        string token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+        var handler = new JwtSecurityTokenHandler();
+        var userId = handler.ReadJwtToken(token).Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+
+        if (userId == null)
+        {
+            return Ok("Nemate ziadne otazky");
+        }
+        
+        var id = Guid.Parse(userId);
+        var responses = await _questionQueryService.GetAllQuestionsByUserAsync(id);
         return Ok(responses);
     }
-    
 }

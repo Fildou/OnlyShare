@@ -27,9 +27,41 @@ public class QuestionRepository: IQuestionRepository
 
         return newQuestion;
     }
+
+    public async Task EditQuestionAsync(Question? question)
+    {
+        if (question == null)
+        {
+            _logger.LogError("update question cant be null");
+            throw new ArgumentNullException(nameof(question));
+        }
+        
+        _context.Questions.Update(question);
+        await _context.SaveChangesAsync();
+    }
     
+    public async Task<Question?> GetQuestionAsync(Guid id)
+    {
+        return await _context.Questions.FindAsync(id);
+    }
     public async Task<IEnumerable<Question>> GetAllQuestionsAsync()
     {
-        return await _context.Questions.OrderByDescending(x => x.CreatedAt).ToListAsync();
+        return await _context.Questions.Include(x => x.CreatedBy).ToListAsync();
+    }
+
+    public async Task<IEnumerable<Question>> GetAllQuestionsByUserAsync(Guid userId)
+    {
+        return await _context.Questions.Include(q => q.CreatedBy).Where(q => q.CreatedBy.Id == userId).ToListAsync();
+    }
+    
+    public async Task<IEnumerable<Question>> GetQuestionsBySearchTermAsync(string searchTerm)
+    {
+        return await _context.Questions
+            .Include(question => question.CreatedBy)
+            .Where(question => 
+                EF.Functions.Collate(question.Title.ToLower(), "Latin1_General_CI_AI").Contains(EF.Functions.Collate(searchTerm.ToLower(), "Latin1_General_CI_AI"))
+                || EF.Functions.Collate(question.CreatedBy.Username.ToLower(), "Latin1_General_CI_AI").Contains(EF.Functions.Collate(searchTerm.ToLower(), "Latin1_General_CI_AI")))
+            .OrderBy(question => question.CreatedAt)
+            .ToListAsync();
     }
 }
