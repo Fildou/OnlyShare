@@ -11,6 +11,7 @@ import QuestionDetailPage from "../pages/QuestionDetailPage";
 
 import { Layout } from "../components/main/layout";
 import { AuthProvider } from "../middleware/authContext";
+import UserQuestions from "../pages/UserQuestions";
 
 const AppRouter = () => {
     return (
@@ -21,6 +22,7 @@ const AppRouter = () => {
                         <Route path="/" element={<HomePage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/createQuestion" element={<CreateQuestion />} />
+                        <Route path="/UserQuestions" element={<UserQuestions />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/post/:postId" element={<QuestionDetailPage />} />

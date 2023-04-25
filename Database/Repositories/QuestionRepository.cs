@@ -64,4 +64,26 @@ public class QuestionRepository: IQuestionRepository
             .OrderBy(question => question.CreatedAt)
             .ToListAsync();
     }
+
+    public async Task DeleteQuestionAsync(Guid questionId)
+    {
+        var comments = await _context.Comments.Where(c => c.QuestionId == questionId).ToListAsync();
+
+        foreach (var comment in comments)
+        {
+            _context.Comments.Remove(comment);
+        }
+        
+        var question = await _context.Questions.FirstOrDefaultAsync(q => q.Id == questionId);
+        
+        if (question == null)
+        {
+            return;
+        }
+        
+        _context.Questions.Remove(question);
+
+        await _context.SaveChangesAsync();
+    }
+    
 }

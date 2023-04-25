@@ -10,4 +10,5 @@ public interface IQuestionRepository
     public Task<Question?> GetQuestionAsync(Guid id);
     public Task EditQuestionAsync(Question question);
     public Task<IEnumerable<Question>> GetQuestionsBySearchTermAsync(string searchTerm);
+    public Task DeleteQuestionAsync(Guid questionId);
 }

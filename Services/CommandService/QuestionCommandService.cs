@@ -1,4 +1,5 @@
-﻿using OnlyShare.Contracts;
+﻿using System.Security.Authentication;
+using OnlyShare.Contracts;
 using OnlyShare.Database.Models;
 using OnlyShare.Database.Repositories;
 
@@ -56,5 +57,30 @@ public class QuestionCommandService : IQuestionCommandService
             CreatedAt = response.CreatedAt,
             CreatedByUserName = user.Result?.Username
         };
+    }
+    
+    public async Task DeleteQuestionAsync(DeleteQuestionRequest request, Guid userId)
+    {
+        if (await _userRepository.CheckUserExistsAsync(userId) == false)
+        {
+            _logger.LogError("User with ID {UserId} cant be found", userId);
+            throw new AuthenticationException("User not found");
+        }
+
+        var question = await _questionRepository.GetQuestionAsync(request.QuestionId);
+
+        if (question == null)
+        {
+            _logger.LogDebug("Question with ID {QuestionId} was not found", request.QuestionId);
+            throw new Exception("Question was not found");
+        }
+
+        if (question.CreatedById != userId)
+        {
+            _logger.LogDebug("User {UserId} is not the author of the question", userId);
+            throw new Exception("User is not the author of this question");
+        }
+
+        await _questionRepository.DeleteQuestionAsync(question.Id);
     }
 }
