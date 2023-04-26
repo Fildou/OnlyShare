@@ -74,16 +74,23 @@ public class AccountController : ControllerBase
     [HttpPost("[action]")]
     public IActionResult Login(LoginRequest request)
     {
-        var user = _dataContext.Users!.FirstOrDefault(user => request.Email == user.Email);
-
-        var validator = new LoginRequestValidator();
-        var validationResult = validator.Validate(request);
-
-        if (!validationResult.IsValid)
+        if (_dataContext == null)
         {
-            return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+            return StatusCode(500, "Internal Server Error: DataContext is not initialized.");
         }
 
+        var user = _dataContext.Users?.FirstOrDefault(user => request.Email == user.Email);
+
+        if (user == null)
+        {
+            return Unauthorized("Invalid email or password.");
+        }
+
+        // Add password verification
+        if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+        {
+            return Unauthorized("Invalid email or password.");
+        }
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_options.Value.JwtSecret);
@@ -91,9 +98,9 @@ public class AccountController : ControllerBase
         {
             Subject = new ClaimsIdentity(new[]
             {
-                new Claim("id", user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Email)
-            }),
+            new Claim("id", user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Email)
+        }),
             Expires = DateTime.UtcNow.AddDays(7),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
