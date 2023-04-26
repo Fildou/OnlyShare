@@ -23,7 +23,6 @@ function NavMenu() {
     localStorage.removeItem("token");
     toggleLogin();
     navigate("/login"); 
-    location.reload();
   };
 
   const handleQuestion = () => {

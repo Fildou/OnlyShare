@@ -44,7 +44,6 @@ function UserQuestions() {
                 toast.success("DELETED");
             } catch (error) {
                 toast.success("Deleted");
-                location.reload();
             }
         }
     };
