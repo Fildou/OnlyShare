@@ -1,5 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OnlyShare.Contracts;
@@ -74,13 +76,24 @@ public class QuestionsController : ControllerBase
         var handler = new JwtSecurityTokenHandler();
         var userId = handler.ReadJwtToken(token).Claims.FirstOrDefault(c => c.Type == "id")?.Value;
 
-        if (userId == null)
+        if (userId != null)
         {
-            return Ok("Nemate ziadne otazky");
+            var responses = await _questionQueryService.GetAllQuestionsByUserAsync(Guid.Parse(userId));
+            return Ok(responses);
         }
-        
+
+        return BadRequest(Response);
+    }
+
+    [HttpDelete("{questionId}")]
+    public async Task<ActionResult> DeleteQuestion(Guid questionId)
+    {
+        string token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+        var handler = new JwtSecurityTokenHandler();
+        var userId = handler.ReadJwtToken(token).Claims.FirstOrDefault(c => c.Type == "id")?.Value;
         var id = Guid.Parse(userId);
-        var responses = await _questionQueryService.GetAllQuestionsByUserAsync(id);
-        return Ok(responses);
+
+        await _questionCommandService.DeleteQuestionAsync(new DeleteQuestionRequest { QuestionId = questionId }, id);
+        return Ok("Question was deleted");
     }
 }
