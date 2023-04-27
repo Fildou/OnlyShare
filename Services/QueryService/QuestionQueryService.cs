@@ -45,11 +45,13 @@ namespace OnlyShare.Services.QueryService
                 Title = question.Title,
                 Description = question.Description,
                 CreatedAt = question.CreatedAt,
+                CreatedByUserId = question.CreatedById,
                 CreatedByUserName = question.CreatedBy?.Username
             }).ToList();
 
             return responses;
         }
+
 
         public async Task<List<GetQuestionResponse>> GetAllQuestionsByUserAsync(Guid id)
         {
@@ -61,6 +63,7 @@ namespace OnlyShare.Services.QueryService
                     Title = question.Title,
                     Description = question.Description,
                     CreatedAt = question.CreatedAt,
+                    CreatedByUserId = question.CreatedById,
                     CreatedByUserName = question.CreatedBy?.Username
                 }).ToList();
 
@@ -79,6 +82,7 @@ namespace OnlyShare.Services.QueryService
                     Title = question.Title,
                     Description = question.Description,
                     CreatedAt = question.CreatedAt,
+                    CreatedByUserId = question.CreatedById,
                     CreatedByUserName = question.CreatedBy!.Username,
                 }).ToList()
             };

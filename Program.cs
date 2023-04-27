@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using OnlyShare;
 using OnlyShare.Database;
 using OnlyShare.Services;
+using OnlyShare.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Identity;
@@ -112,6 +113,7 @@ builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommentQuerryService, CommentQuerryService>();
 builder.Services.AddScoped<ICommentCommandService, CommentCommandService>();
 
+
 var app = builder.Build();
 
 using var scope = app.Services.CreateScope();
@@ -139,6 +141,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseMiddleware<UserContextMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

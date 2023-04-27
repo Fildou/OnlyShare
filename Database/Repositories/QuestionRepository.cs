@@ -51,7 +51,7 @@ public class QuestionRepository: IQuestionRepository
 
     public async Task<IEnumerable<Question>> GetAllQuestionsByUserAsync(Guid userId)
     {
-        return await _context.Questions.Include(q => q.CreatedBy).Where(q => q.CreatedBy.Id == userId).ToListAsync();
+        return await _context.Questions.Include(q => q.CreatedBy).Where(q => q.CreatedById == userId).ToListAsync();
     }
     
     public async Task<IEnumerable<Question>> GetQuestionsBySearchTermAsync(string searchTerm)
