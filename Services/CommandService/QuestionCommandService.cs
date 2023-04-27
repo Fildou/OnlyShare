@@ -83,4 +83,37 @@ public class QuestionCommandService : IQuestionCommandService
 
         await _questionRepository.DeleteQuestionAsync(question.Id);
     }
+    public async Task EditQuestionAsync(EditQuestionRequest request, Guid questionId, Guid userId)
+    {
+        if (questionId == Guid.Empty)
+        {
+            _logger.LogError("QuestionId cannot be null or empty");
+            throw new ArgumentNullException(nameof(questionId));
+        }
+
+        if (await _userRepository.CheckUserExistsAsync(userId) == false)
+        {
+            _logger.LogError("User with id cannot be found");
+            throw new ArgumentNullException(nameof(userId));
+        }
+        
+        var question = await _questionRepository.GetQuestionAsync(questionId);
+
+        if (question == null)
+        {
+            _logger.LogDebug("Question with ID was not found");
+            throw new ArgumentException(nameof(question));
+        }
+
+        if (question.CreatedById != userId)
+        {
+            _logger.LogDebug("User is not the author of the question");
+            throw new ArgumentException(nameof(question));
+        }
+
+        question.Description = request.Description;
+        question.Title = request.Title;
+
+        await _questionRepository.EditQuestionAsync(question);
+    }
 }

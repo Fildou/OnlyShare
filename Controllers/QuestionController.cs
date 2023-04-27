@@ -96,4 +96,24 @@ public class QuestionsController : ControllerBase
         await _questionCommandService.DeleteQuestionAsync(new DeleteQuestionRequest { QuestionId = questionId }, id);
         return Ok("Question was deleted");
     }
+    
+    [HttpPut("{questionId}")]
+    public async Task<IActionResult> EditQuestion(Guid questionId, EditQuestionRequest request)
+    {
+        string token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+        var handler = new JwtSecurityTokenHandler();
+        var userId = handler.ReadJwtToken(token).Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+        var id = Guid.Parse(userId);
+
+        var validator = new EditQuestionRequestValidator();
+        var validationResult = await validator.ValidateAsync(request);
+
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        await _questionCommandService.EditQuestionAsync(request, questionId, id);
+        return Ok("Question was edited");
+    }
 }

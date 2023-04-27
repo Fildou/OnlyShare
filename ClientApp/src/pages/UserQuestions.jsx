@@ -4,15 +4,15 @@ import CardComponent from "../components/main/card";
 import "./UserQuestion.css";
 import "../components/main/card.css";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function UserQuestions() {
     const [questions, setQuestions] = useState([]);
     const [error, setError] = useState(null);
-    const notify = () => toast("Wow so easy!");
-    
+    const navigate = useNavigate();
+
     useEffect(() => {
         async function fetchQuestions() {
             try {
@@ -43,11 +43,12 @@ function UserQuestions() {
                 setQuestions((prevQuestions) => prevQuestions.filter((q) => q.id !== id));
                 toast.success("DELETED");
             } catch (error) {
+                location.reload();
                 toast.success("Deleted");
             }
         }
     };
-
+    
     if (error) {
         return <div>{error}</div>;
     }
@@ -76,6 +77,7 @@ function UserQuestions() {
                                 postId={post.id}
                             />
                             <Button color="danger" onClick={() => handleDelete(post.id)}>Delete</Button>
+                            <Button  href={`/postEdit/${post.id}`} color="primary" >Edit</Button>
                         </Col>
                     ))}
                 </Row>
