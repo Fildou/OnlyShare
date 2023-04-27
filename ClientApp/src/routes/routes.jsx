@@ -8,6 +8,7 @@ import LoginPage from "../pages/LoginPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import QuestionDetailPage from "../pages/QuestionDetailPage";
+import ProfilePage from "../pages/ProfilePage";
 
 import { Layout } from "../components/main/layout";
 import { AuthProvider } from "../middleware/authContext";
@@ -29,6 +30,7 @@ const AppRouter = () => {
                         <Route path="/comment/:commentId" element={<QuestionDetailPage />} />
                         <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
                         <Route path="/reset-password" element={<ResetPasswordPage />} />
+                        <Route path="/profile/:userId" element={<ProfilePage />} />
                     </Routes>
                 </Layout>
             </AuthProvider>

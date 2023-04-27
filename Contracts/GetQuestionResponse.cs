@@ -6,5 +6,6 @@ public class GetQuestionResponse
     public string? Title { get; set; }
     public string? Description { get; set; }
     public DateTime? CreatedAt { get; set; }
+    public Guid CreatedByUserId { get; set; }
     public string? CreatedByUserName { get; set; }
 }

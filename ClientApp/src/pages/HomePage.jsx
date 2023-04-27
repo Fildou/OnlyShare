@@ -1,5 +1,6 @@
 ﻿import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
+import { Link } from "react-router-dom";
 import CardComponent from "../components/main/card";
 import "./HomePage.css";
 import "../components/main/card.css";
@@ -47,7 +48,11 @@ const HomePage = () => {
           <Col key={post.id} md="12" className="mb-4">
             <CardComponent
               title={post.title}
-              username={post.createdByUserName}
+              username={
+                <Link to={`/profile/${post.createdById}`}>
+                  {post.createdByUserName}
+                </Link>
+              }
               text={post.text || post.description}
               date={formatDate(post.date || post.createdAt)}
               postId={post.id}
@@ -58,5 +63,6 @@ const HomePage = () => {
     </Container>
   );
 };
+
 
 export default HomePage;

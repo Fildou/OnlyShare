@@ -21,10 +21,17 @@ namespace OnlyShare.Database.Repositories
         {
             return await _context.Users.AnyAsync(user => user.Id == id);
         }
+
         public async Task<User?> GetUserByEmailAsync(string email)
         {
             email = email.ToLowerInvariant();
             return await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
+        }
+
+        public async Task UpdateUserProfileAsync(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
         }
     }
 }

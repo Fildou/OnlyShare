@@ -1,4 +1,5 @@
 ﻿import React, { useState } from "react";
+import jwt_decode from "jwt-decode";
 import {
   Navbar,
   NavbarBrand,
@@ -14,9 +15,11 @@ import { Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
 import { useAuth } from "../../middleware/authContext";
 
+
 function NavMenu() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { isLoggedIn, toggleLogin } = useAuth();
+  const { isLoggedIn, toggleLogin, user } = useAuth();
+  console.log(user);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -36,6 +39,17 @@ function NavMenu() {
   const handleCreateQuestion = () => {
     if (isLoggedIn) {
       navigate("/createQuestion");
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const handleProfile = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = jwt_decode(token);
+      const userId = decodedToken.id;
+      navigate(`/profile/${userId}`);
     } else {
       navigate("/login");
     }
@@ -71,6 +85,9 @@ function NavMenu() {
                 )}
                 {isLoggedIn && (
                     <>
+                      <DropdownItem onClick={handleProfile}>
+                        Profile
+                      </DropdownItem>
                       <DropdownItem tag={Link} to="/UserQuestions">
                         Questions
                       </DropdownItem>
@@ -88,25 +105,3 @@ function NavMenu() {
 }
 
 export default NavMenu;
-
-
-
-
-
-
-
-
-{
-  /* { 
-  <div className="searchbar-wrapper">
-  <InputGroup className="searchbar">
-      <Input className="search" placeholder="Search" />
-      <InputGroupText addonType="append">
-          <button className="searchbtn" type="button">
-          🔍
-          </button>
-      </InputGroupText>
-      </InputGroup>
-  </div> 
-  } */
-}
