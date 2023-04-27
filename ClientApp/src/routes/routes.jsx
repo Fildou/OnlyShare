@@ -13,6 +13,7 @@ import ProfilePage from "../pages/ProfilePage";
 import { Layout } from "../components/main/layout";
 import { AuthProvider } from "../middleware/authContext";
 import UserQuestions from "../pages/UserQuestions";
+import EditQuestion from "../pages/EditQuestion";
 
 const AppRouter = () => {
     return (
@@ -31,6 +32,7 @@ const AppRouter = () => {
                         <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
                         <Route path="/reset-password" element={<ResetPasswordPage />} />
                         <Route path="/profile/:userId" element={<ProfilePage />} />
+                        <Route path="/postEdit/:postId" element={<EditQuestion />} />
                     </Routes>
                 </Layout>
             </AuthProvider>
