@@ -49,9 +49,13 @@ const HomePage = () => {
             <CardComponent
               title={post.title}
               username={
-                <Link to={`/profile/${post.createdById}`}>
-                  {post.createdByUserName}
-                </Link>
+                post.createdByUserId ? (
+                  <Link to={`/profile/${post.createdByUserId}`}>
+                    {post.createdByUserName}
+                  </Link>
+                ) : (
+                  <span>{post.createdByUserName}</span>
+                )
               }
               text={post.text || post.description}
               date={formatDate(post.date || post.createdAt)}
