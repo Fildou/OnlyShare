@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import smileyAvatar from '../resources/smiley.png'; 
+import './ProfilePage.css';
 
 const ProfilePage = () => {
   const { userId } = useParams();
@@ -25,18 +27,20 @@ const ProfilePage = () => {
 
     const checkIsOwner = async () => {
         try {
-          const token = localStorage.getItem("authToken");
-          const { data } = await axios.get(`/api/Profile/isProfileOwner?userId=${userId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setIsOwner(data);
+            const token = localStorage.getItem("authToken");
+            const { data } = await axios.get(`/api/Profile/isProfileOwner?userId=${userId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+              });
+            setIsOwner(data);
+            console.log('isOwner:', data);
+            console.log('userId:', userId);
         } catch (error) {
-          console.error("Error checking profile ownership:", error);
-          console.error("Error response data:", error.response.data);
-          console.error("Error response status:", error.response.status);
-          console.error("Error response headers:", error.response.headers);
+            console.error("Error checking profile ownership:", error);
+            console.error("Error response data:", error.response.data);
+            console.error("Error response status:", error.response.status);
+            console.error("Error response headers:", error.response.headers);
         }
-      };
+    };
 
     fetchProfile();
     checkIsOwner();
@@ -59,27 +63,10 @@ const ProfilePage = () => {
   return (
     <div>
       <h1>{profile.username}</h1>
-      {editing ? (
-        <>
-          <textarea
-            value={profileInfo}
-            onChange={(e) => setProfileInfo(e.target.value)}
-          />
-          <input
-            type="text"
-            value={profilePictureUrl}
-            onChange={(e) => setProfilePictureUrl(e.target.value)}
-          />
-          <button onClick={handleUpdateProfile}>Save Changes</button>
-          <button onClick={() => setEditing(false)}>Cancel</button>
-        </>
-      ) : (
-        <>
-          <div>{profile.profileInfo}</div>
-          <img src={profile.profilePictureUrl} alt="Profile" />
-          {isOwner && <button onClick={() => setEditing(true)}>Edit Profile</button>}
-        </>
-      )}
+      <img src={smileyAvatar} alt="Smiley Avatar" className="smiley-avatar" />
+      <div>
+        <p>Info: I could be better implemented</p>
+      </div>
     </div>
   );
 };

@@ -43,7 +43,6 @@ function UserQuestions() {
                 setQuestions((prevQuestions) => prevQuestions.filter((q) => q.id !== id));
                 toast.success("DELETED");
             } catch (error) {
-                location.reload();
                 toast.success("Deleted");
             }
         }
