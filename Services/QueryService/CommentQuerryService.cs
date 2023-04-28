@@ -10,10 +10,14 @@ namespace OnlyShare.Services.QueryService
         private readonly ILogger<CommentQuerryService> _logger;
         private readonly ICommentRepository _commentRepository;
 
-        public CommentQuerryService(ILogger<CommentQuerryService> logger, ICommentRepository commentRepository)
+        private readonly IUserRepository _userRepository;
+
+
+        public CommentQuerryService(ILogger<CommentQuerryService> logger, ICommentRepository commentRepository, IUserRepository userRepository)
         {
             _logger = logger;
             _commentRepository = commentRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<List<GetCommentResponse>> GetAllCommentsAsync()
@@ -24,8 +28,9 @@ namespace OnlyShare.Services.QueryService
                 Id = comment.Id,
                 Content = comment.Content,
                 CreatedAt = comment.CreatedAt,
-                CreatedByUser = comment.CreatedBy?.Username,
-                QuestionId = comment.QuestionId
+                CreatedByUser = _userRepository.GetUserAsync(comment.UserId)?.Result.Username,
+                QuestionId = comment.QuestionId,
+                UserId = comment.UserId
             }).ToList();
 
             return responses;
