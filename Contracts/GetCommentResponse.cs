@@ -8,6 +8,8 @@ public class GetCommentResponse
 
     public string? Content { get; set; }
 
+    public Guid UserId { get; set; }
+
     public string? CreatedByUser { get; set; }
 
     public Guid QuestionId { get; set; }

@@ -1,11 +1,9 @@
   import React, { useState, useEffect } from "react";
   import axios from "axios";
-  import { Button, Form, FormGroup, Input, Label, FormText } from "reactstrap";
-  import { Col, Container, Row } from "reactstrap";
-  import CardComponent from "../components/main/card";
+  import { Button, Form, FormGroup, Input, Label } from "reactstrap";
   import { toast, ToastContainer } from "react-toastify";
   import "react-toastify/dist/ReactToastify.css";
-  import { useNavigate, useParams } from "react-router-dom";
+  import { useNavigate, useParams, Link } from "react-router-dom";
   import "./QuestionDetailPage.css";
 import CommentComponent from "../components/main/comment";
 
@@ -36,16 +34,30 @@ import CommentComponent from "../components/main/comment";
             },
           };
 
-          const response = await axios.post(
-            "/api/comment/AddComment",
-            {content, question},
-            config
-          );
+            const tokenParts = token.split('.');
+            const tokenPayload = JSON.parse(atob(tokenParts[1]));
 
-          toast.success("Comment created successfully!");
-          setTimeout(() => {
-            window.location.reload()
-          }, 3000);
+            const userId = tokenPayload.id;
+
+            if(comments.findIndex(c => c.userId === userId) == -1)
+            {
+              const response = await axios.post(
+                "/api/comment/AddComment",
+                {content, question},
+                config
+              );
+    
+              toast.success("Comment created successfully!");
+              setTimeout(() => {
+                window.location.reload()
+              }, 3000);
+            }
+            else
+            {
+              throw new Error
+            }
+        
+
         } catch (error) {
           console.error(error);
           toast.error("An error occurred while creating the comment.");
@@ -141,6 +153,12 @@ import CommentComponent from "../components/main/comment";
               <CommentComponent
               title={formatDate(comment.createdAt)}
               text={comment.content}
+              username={
+                <Link to={`/profile/${comment.userId}`}>
+                    {comment.createdByUser}
+                  </Link>
+              }
+              
             />
             ))}
 
