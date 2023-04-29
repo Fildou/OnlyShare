@@ -1,18 +1,18 @@
-.footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 50px;
-    background-color: #6411ad;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.foot {
+    background-color: #28627D;
+    color: black;
+    height: 200px;
+    width: 100%;
   }
-  
-  .footer p {
-    margin: 0;
-    font-size: 14px;
-  }
-  
+ 
+.footer-text {
+    font-size: 20px;
+}
+
+.black-text {
+    color: black;
+}
+
+.footer-link:hover {
+    color: lightslategray;
+}

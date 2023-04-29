@@ -9,17 +9,17 @@ import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,
+  DropdownItem, Nav,
 } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
 import { useAuth } from "../../middleware/authContext";
+import OnlyShareLogo from "../resources/Logo.svg";
 
 
 function NavMenu() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { isLoggedIn, toggleLogin, user } = useAuth();
-  console.log(user);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -43,7 +43,7 @@ function NavMenu() {
       navigate("/login");
     }
   };
-
+  
   const handleProfile = () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -56,51 +56,41 @@ function NavMenu() {
   };
 
   return (
-      <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light>
-          <NavbarBrand tag={Link} to="/" className="onlyshare">
-            OnlyShare
+
+        <Navbar className="navbar-expand-sm navbar-toggleable-sm navbar-color" light>
+          <NavbarBrand tag={Link} style={{ textDecoration: 'none' }} to="/">
+            <i><img src={OnlyShareLogo} alt="logo" className="logo"/></i>
+            <span className="mx-2 logo-text">Onlyshare </span>
           </NavbarBrand>
+          <Nav>
+            { !isLoggedIn &&(
+                <>
+                  <Link className="btn btn-outline-info" to="/login" style={{ textDecoration: 'none' }}>Login</Link>
+                  <Link className="mx-2 btn btn-outline-warning" to="/register" style={{ textDecoration: 'none' }}>Register</Link>
+                </>
+            )}
+            {isLoggedIn && (
+             <>
+               <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+                 <DropdownToggle caret color="outline-info" style={{ textDecoration: 'none' }}>
+                   Account {isLoggedIn.username}
+                 </DropdownToggle>
+                 <DropdownMenu>
+                   <DropdownItem onClick={handleProfile}>
+                     <Link style={{ textDecoration: 'none' }}>Profile</Link>
+                   </DropdownItem>
+                   <DropdownItem>
+                     <Link to="/UserQuestions" style={{ textDecoration: 'none' }}>My questions</Link>
+                   </DropdownItem>
+                 </DropdownMenu>
+               </Dropdown>
+               <button onClick={handleLogout} className="btn btn-outline-warning mx-2">Logout</button>
+             </>   
+            )}
 
-          <div className="icon-wrapper">
-            <div onClick={handleCreateQuestion} className="create-question-icon">
-              <span className="create-question-text">Create Question</span>
-              <img src={require("../resources/plus.png")} alt="Create Question" />
-            </div>
-
-            <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-              <DropdownToggle caret>
-                <img src={require("../resources/user.png")} alt="icon" />
-              </DropdownToggle>
-              <DropdownMenu right>
-                {!isLoggedIn && (
-                    <>
-                      <DropdownItem tag={Link} to="/register">
-                        Register
-                      </DropdownItem>
-                      <DropdownItem tag={Link} to="/login">
-                        Login
-                      </DropdownItem>
-                    </>
-                )}
-                {isLoggedIn && (
-                    <>
-                      <DropdownItem onClick={handleProfile}>
-                        Profile
-                      </DropdownItem>
-                      <DropdownItem tag={Link} to="/UserQuestions">
-                        Questions
-                      </DropdownItem>
-                      <DropdownItem tag={Link} onClick={handleLogout}>
-                        Logout
-                      </DropdownItem>
-                    </>
-                )}
-              </DropdownMenu>
-            </Dropdown>
-          </div>
+          </Nav>
         </Navbar>
-      </header>
+
   );
 }
 

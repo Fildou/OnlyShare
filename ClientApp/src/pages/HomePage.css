@@ -1,5 +1,19 @@
-.posts-heading {
-    margin-bottom: 2rem;
-    margin-right: 35%;
-    text-align: center;
+.post-text {
+    color: #5bc0de;
+    font-family: SansSerif;
+    font-size: 40px;
+}
+
+.square-left {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(to bottom right, #5bc0de 35%, transparent 45%, transparent 51%, #f0ad4e 61%);
+    transform: rotate(25deg);
+}
+
+.square-right {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(to bottom right, #5bc0de 25%, transparent 45%, transparent 51%, #f0ad4e 71%);
+    transform: rotate(-200deg);
 }

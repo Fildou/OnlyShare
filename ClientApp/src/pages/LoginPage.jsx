@@ -44,7 +44,7 @@ const LoginPage = () => {
       });
       toggleLogin();
       setTimeout(() => {
-        navigate("/");
+        navigate("/questions");
       }, 1000);
     } catch (error) {
       setError(error.response.data);

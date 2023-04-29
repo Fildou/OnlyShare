@@ -14,6 +14,7 @@ import { Layout } from "../components/main/layout";
 import { AuthProvider } from "../middleware/authContext";
 import UserQuestions from "../pages/UserQuestions";
 import EditQuestion from "../pages/EditQuestion";
+import MainPage from "../pages/MainPage";
 
 const AppRouter = () => {
     return (
@@ -21,7 +22,8 @@ const AppRouter = () => {
             <AuthProvider>
                 <Layout>
                     <Routes>
-                        <Route path="/" element={<HomePage />} />
+                        <Route path="/" element={<MainPage />} />
+                        <Route path="/questions" element={<HomePage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/createQuestion" element={<CreateQuestion />} />
                         <Route path="/UserQuestions" element={<UserQuestions />} />
