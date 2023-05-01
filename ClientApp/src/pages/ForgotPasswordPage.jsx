@@ -51,7 +51,7 @@ const ForgotPasswordPage = () => {
   return (
     <div className="forgot-password-page">
       <ToastContainer />
-      <h2>Forgot Password</h2>
+      <h2 className="reset-password-text mb-3">Reset password</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email:</label>
@@ -63,7 +63,7 @@ const ForgotPasswordPage = () => {
             required
           />
         </div>
-        <button className="button-forgot" type="submit">Submit</button>
+        <button className="btn btn-primary" type="submit">Submit</button>
       </form>
     </div>
   );

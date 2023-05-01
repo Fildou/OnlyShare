@@ -38,7 +38,7 @@ const CreateQuestion = () => {
 
         toast.success("Question created successfully!");
         setTimeout(() => {
-          navigate("/");
+          navigate("/questions");
         }, 850);
       } catch (error) {
         console.error(error);
@@ -57,7 +57,7 @@ const CreateQuestion = () => {
 
   return (
     <div  className="container form-create">
-      <h1>Create question</h1>
+      <h1 className="create-question-label">Create question</h1>
       <Form  onSubmit={handleSave}>
 
         <FormGroup>
@@ -92,7 +92,7 @@ const CreateQuestion = () => {
           </FormText>
         </FormGroup>
 
-        <Button type="submit" className="">
+        <Button type="submit" className="btn btn-primary">
           Save
         </Button>
       </Form>

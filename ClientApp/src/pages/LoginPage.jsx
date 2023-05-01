@@ -44,7 +44,7 @@ const LoginPage = () => {
       });
       toggleLogin();
       setTimeout(() => {
-        navigate("/");
+        navigate("/questions");
       }, 1000);
     } catch (error) {
       setError(error.response.data);
@@ -58,8 +58,8 @@ const LoginPage = () => {
   return (
     <div className="login-page">
       <ToastContainer />
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+      <h2 className="login-text mb-3 d-flex">Sign in</h2>
+      <form className="d-flex justify-content-center" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email:</label>
           <input
@@ -81,16 +81,12 @@ const LoginPage = () => {
           />
         </div>
         {err && <div className="error">{err}</div>}
-        <button className="button-login" type="submit">Login</button>
-        <div className="links">
-
-        <a href="/forgotpassword">Forgot Password?</a>
-        <br />
-        <a href="/register">Register</a>
-        
-      </div>
+        <button className="btn btn-primary" type="submit">Login</button>
       </form>
-    
+      <div className="links">
+        <a className="d-flex justify-content-center" href="/forgotpassword">Forgot Password?</a>
+        <a className="d-flex justify-content-center" href="/register">Register</a>
+      </div>
     </div>
   );
 };
