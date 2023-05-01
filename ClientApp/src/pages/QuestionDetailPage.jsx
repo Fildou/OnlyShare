@@ -133,7 +133,7 @@ import CommentComponent from "../components/main/comment";
                   <CardTitle className="d-flex justify-content-between"> <span> {post.title}</span>  <span>{formatDate(post.createdAt)}</span></CardTitle>
                   <CardSubtitle className="mb-2">{post.createdByUserName}</CardSubtitle>
                 </div>
-                <CardText className="card-text">{post.description}</CardText>
+                <CardText className="card-text capitalize-text">{post.description}</CardText>
               </CardBody>
             </Card>
             <FormGroup className="mt-5">
