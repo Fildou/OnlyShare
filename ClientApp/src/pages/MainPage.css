@@ -1,0 +1,79 @@
+﻿body {
+    background-color: #1C1C33;
+}
+
+.text-style {
+    color: #59CBE8;
+    font-size: 80px;
+    font-family: SansSerif;
+}
+
+.slogan-text {
+    color: white;
+    font-size: 30px;
+    font-family: SansSerif;
+}
+
+.slogan-text-highlight{
+    color: #59CBE8;
+    font-size: 30px;
+    font-family: SansSerif;
+}
+
+.slogan-text-highlight-second {
+    color: #f0ad4e;
+    font-size: 30px;
+    font-family: SansSerif;
+}
+
+.card-main-page {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    background-color: #5bc0de;
+    color: black;
+    border-radius: 30px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.login-card {
+    background-color: #f0ad4e;
+    color: black;
+}
+
+.row-main-page {
+    margin-top: 7rem;
+}
+
+.main-text-title {
+    font-family: SansSerif;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.main-text-paragraph {
+    font-family: SansSerif;
+    font-size: 25px;
+}
+
+.main-text-link {
+    font-family: SansSerif;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+
+
+.square-left {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(to bottom right, #5bc0de 35%, transparent 45%, transparent 51%, #f0ad4e 61%);
+    transform: rotate(25deg);
+}
+
+.square-right {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(to bottom right, #5bc0de 25%, transparent 45%, transparent 51%, #f0ad4e 71%);
+    transform: rotate(-200deg);
+}

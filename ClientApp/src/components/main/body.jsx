@@ -8,9 +8,6 @@ const MainContainer = styled.div`
 const ContentContainer = styled.div`
   max-width: 1200px;
   margin: auto;
-  margin-top: 1rem;
-  padding-top: 3rem;
-  
 `;
 
 const Body = ({ children }) => {
