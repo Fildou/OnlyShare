@@ -3,7 +3,7 @@ import OnlyShareLogo from "../resources/OnlyShare-BL.png";
 import "./MainPage.css";
 import {Link, Navigate} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestion, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faUserPlus, faMagnifyingGlassPlus } from '@fortawesome/free-solid-svg-icons';
 
 const MainPage = () => {
     
@@ -23,7 +23,7 @@ const MainPage = () => {
                     <div className="container">
                         <h4 className="main-text-title">Search, and Grow Your Expertise</h4>
                         <p className="main-text-paragraph">Join the OnlyShare Community: Ask, Answer, and Grow Your Expertise</p>
-                        <Link className="btn btn-outline-dark main-text-link" to="/questions" style={{ textDecoration: 'none' }}> <FontAwesomeIcon icon={faQuestion} /> Discover content</Link>
+                        <Link className="btn btn-outline-dark main-text-link" to="/questions" style={{ textDecoration: 'none' }}> <FontAwesomeIcon icon={faMagnifyingGlassPlus} /> Discover content</Link>
                     </div>
                 </div>
                 <div className="card-main-page login-card">
