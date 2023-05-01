@@ -11,6 +11,7 @@ const ProfilePage = () => {
   const [editing, setEditing] = useState(false);
   const [profileInfo, setProfileInfo] = useState("");
   const [profilePictureUrl, setProfilePictureUrl] = useState("");
+  const [userReaction, setUserReaction] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -42,8 +43,22 @@ const ProfilePage = () => {
         }
     };
 
+    const fetchUserReaction = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const { data } = await axios.get(`/api/profile/userReaction?targetUserId=${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUserReaction(data);
+      } catch (error) {
+        console.error("Error fetching user reaction:", error);
+      }
+    };
+
+
     fetchProfile();
     checkIsOwner();
+    fetchUserReaction();
   }, [userId]);
 
   const handleUpdateProfile = async () => {
@@ -58,6 +73,49 @@ const ProfilePage = () => {
     }
   };
 
+  const handleLikeProfile = async () => {
+    try {
+      if (userReaction && userReaction.isLike) {
+        await handleRemoveReaction();
+        setUserReaction(null);
+      } else {
+        const token = localStorage.getItem("authToken");
+        await axios.post(`/api/profile/like?targetUserId=${userId}`, null, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUserReaction({ isLike: true });
+      }
+    } catch (error) {
+      console.error("Error liking profile:", error);
+    }
+  };
+  
+  
+  const handleDislikeProfile = async () => {
+    try {
+      if (userReaction && !userReaction.isLike) {
+        await handleRemoveReaction();
+        setUserReaction(null);
+      } else {
+        const token = localStorage.getItem("authToken");
+        await axios.post(`/api/profile/dislike?targetUserId=${userId}`, null, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUserReaction({ isLike: false });
+      }
+    } catch (error) {
+      console.error("Error disliking profile:", error);
+    }
+  };
+
+  const handleRemoveReaction = async () => {
+    try {
+      await axios.delete(`/api/profile/reaction?targetUserId=${userId}`);
+    } catch (error) {
+      console.error("Error removing reaction:", error);
+    }
+  };
+
   if (!profile) return <div>Loading...</div>;
 
   return (
@@ -67,8 +125,11 @@ const ProfilePage = () => {
       <div>
         <p>Info: I could be better implemented</p>
       </div>
+        <div className="reaction-buttons">
+          <button onClick={handleLikeProfile}>Like</button>
+          <button onClick={handleDislikeProfile}>Dislike</button>
+        </div>
     </div>
   );
 };
-
 export default ProfilePage;

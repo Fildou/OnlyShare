@@ -4,7 +4,6 @@ using Microsoft.IdentityModel.Tokens;
 using OnlyShare;
 using OnlyShare.Database;
 using OnlyShare.Services;
-using OnlyShare.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Identity;
@@ -145,8 +144,6 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseMiddleware<UserContextMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

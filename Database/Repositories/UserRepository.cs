@@ -33,5 +33,31 @@ namespace OnlyShare.Database.Repositories
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<UserReaction?> GetUserReactionAsync(Guid userId, Guid targetUserId)
+        {
+            return await _context.UserReactions.FirstOrDefaultAsync(reaction => reaction.UserId == userId && reaction.TargetUserId == targetUserId);
+        }
+
+        public async Task AddOrUpdateUserReactionAsync(UserReaction userReaction)
+        {
+            var existingReaction = await GetUserReactionAsync(userReaction.UserId, userReaction.TargetUserId);
+            if (existingReaction == null)
+            {
+                _context.UserReactions.Add(userReaction);
+            }
+            else
+            {
+                existingReaction.IsLike = userReaction.IsLike;
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveUserReactionAsync(UserReaction userReaction)
+        {
+            _context.UserReactions.Remove(userReaction);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
