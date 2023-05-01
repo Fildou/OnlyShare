@@ -1,6 +1,18 @@
   import React, { useState, useEffect } from "react";
   import axios from "axios";
-  import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+  import {
+  Button,
+    Card,
+    CardBody,
+    CardLink,
+    CardSubtitle,
+    CardText,
+    CardTitle,
+  Form,
+  FormGroup,
+  Input,
+  Label
+} from "reactstrap";
   import { toast, ToastContainer } from "react-toastify";
   import "react-toastify/dist/ReactToastify.css";
   import { useNavigate, useParams, Link } from "react-router-dom";
@@ -111,59 +123,49 @@ import CommentComponent from "../components/main/comment";
   
   
     return (
-      <div  className="container form-create">
-        <h1>Question detail</h1>
-        <Form onSubmit={handleSave}>
-
-          <FormGroup>
-            <Label>Title</Label>
-            <Input disabled
-              type="form-label"
-              name="title"
-              id="title"
-              placeholder={post.title}/>
-          </FormGroup>
-
-          <FormGroup>
-            <Label for="description">Description</Label>
-            <Input disabled
-              type="textarea"
-              name="description"
-              id="description"
-              placeholder={post.description}/>
-          </FormGroup>
-
-          <FormGroup>
-            <Label for="content">Napíšte komentar</Label>
-            
-            <Input 
-              type="textarea"
-              name="content"
-              id="content"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Sem napíšte komentár"/>
+      <div  className="container">
+        <h2 className="post-text">Post summary</h2>
+        <div className="form-create">
+          <Form className="mt-2" onSubmit={handleSave}>
+            <Card className="card">
+              <CardBody className="card-body">
+                <div className="">
+                  <CardTitle className="d-flex justify-content-between"> <span> {post.title}</span>  <span>{formatDate(post.createdAt)}</span></CardTitle>
+                  <CardSubtitle className="mb-2">{post.createdByUserName}</CardSubtitle>
+                </div>
+                <CardText className="card-text">{post.description}</CardText>
+              </CardBody>
+            </Card>
+            <FormGroup className="mt-5">
+              <Label for="content">Your answer</Label>
+              <Input
+                  name="content"
+                  id="content"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="Write comment"/>
               {contentError && <div className="error">{contentError}</div>}
-              <Button type="submit" className="">
-              Pridať komentár
-            </Button>
+              <button type="submit" className="mt-2 btn btn-primary">
+                Post your answer
+              </button>
             </FormGroup>
-
-            {comments.map((comment) =>(
+          </Form>
+        </div>
+        <div className="mt-5">
+          <h2 className="post-text">Answers</h2>
+          {comments.map((comment) =>(
               <CommentComponent
-              title={formatDate(comment.createdAt)}
-              text={comment.content}
-              username={
-                <Link to={`/profile/${comment.userId}`}>
-                    {comment.createdByUser}
-                  </Link>
-              }
-              
-            />
-            ))}
+                  title={formatDate(comment.createdAt)}
+                  text={comment.content}
+                  username={
+                    <Link to={`/profile/${comment.userId}`}>
+                      {comment.createdByUser}
+                    </Link>
+                  }
+              />
+          ))}
+        </div>
 
-          
-        </Form>
         <ToastContainer />
       </div>
     );
