@@ -38,7 +38,7 @@ const CreateQuestion = () => {
 
         toast.success("Question created successfully!");
         setTimeout(() => {
-          navigate("/");
+          navigate("/questions");
         }, 850);
       } catch (error) {
         console.error(error);
