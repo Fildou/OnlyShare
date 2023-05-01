@@ -15,7 +15,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
 import { useAuth } from "../../middleware/authContext";
 import OnlyShareLogo from "../resources/Logo.svg";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faRightToBracket, faRightFromBracket, faUserPlus, faUser, faAddressCard, faList} from '@fortawesome/free-solid-svg-icons';
 
 function NavMenu() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -65,26 +66,26 @@ function NavMenu() {
           <Nav>
             { !isLoggedIn &&(
                 <>
-                  <Link className="btn btn-outline-info" to="/login" style={{ textDecoration: 'none' }}>Login</Link>
-                  <Link className="mx-2 btn btn-outline-warning" to="/register" style={{ textDecoration: 'none' }}>Register</Link>
+                  <Link className="btn btn-outline-info" to="/login" style={{ textDecoration: 'none' }}>Login <FontAwesomeIcon icon={faRightToBracket} /></Link>
+                  <Link className="mx-2 btn btn-outline-warning" to="/register" style={{ textDecoration: 'none' }}>Register <FontAwesomeIcon icon={faUserPlus} /></Link>
                 </>
             )}
             {isLoggedIn && (
              <>
                <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
                  <DropdownToggle caret color="outline-info" style={{ textDecoration: 'none' }}>
-                   Account {isLoggedIn.username}
+                   Account <FontAwesomeIcon icon={faUser} />
                  </DropdownToggle>
                  <DropdownMenu>
                    <DropdownItem onClick={handleProfile}>
-                     <Link style={{ textDecoration: 'none' }}>Profile</Link>
+                     <Link style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faAddressCard} /> Profile</Link>
                    </DropdownItem>
                    <DropdownItem>
-                     <Link to="/UserQuestions" style={{ textDecoration: 'none' }}>My questions</Link>
+                     <Link to="/UserQuestions" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faList} /> My questions</Link>
                    </DropdownItem>
                  </DropdownMenu>
                </Dropdown>
-               <button onClick={handleLogout} className="btn btn-outline-warning mx-2">Logout</button>
+               <button onClick={handleLogout} className="btn btn-outline-warning mx-2">Logout <FontAwesomeIcon icon={faRightFromBracket} /></button>
              </>   
             )}
 
