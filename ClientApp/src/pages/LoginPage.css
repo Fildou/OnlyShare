@@ -69,3 +69,7 @@
   a:hover {
     text-decoration: underline;
   }
+
+.login-text {
+  color: #59CBE8;
+}

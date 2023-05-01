@@ -48,7 +48,7 @@ const RegisterPage = () => {
     return (
         <div className="register-page">
             <ToastContainer />
-            <h2>Register</h2>
+            <h2 className="register-text mb-3">Create account</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>UserName:</label>
@@ -91,7 +91,7 @@ const RegisterPage = () => {
                     />
                 </div>
                 {err && <div className="error">{err}</div>}
-                <button className="button-register" type="submit">Register</button>
+                <button className="btn btn-primary" type="submit">Register</button>
             </form>
         </div>
     );
