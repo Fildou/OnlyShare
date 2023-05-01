@@ -17,3 +17,7 @@
     background: linear-gradient(to bottom right, #5bc0de 25%, transparent 45%, transparent 51%, #f0ad4e 71%);
     transform: rotate(-200deg);
 }
+
+.card-collor-hp {
+    background: #59CBE8;
+}

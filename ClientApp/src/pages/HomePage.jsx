@@ -7,7 +7,7 @@ import "../components/main/card.css";
 import axios from "axios";
 import {useAuth} from "../middleware/authContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {} from '@fortawesome/free-brands-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const HomePage = () => {
   const [questions, setQuestions] = useState([]);
@@ -55,7 +55,7 @@ const HomePage = () => {
           <input className="form-check-input w-100 h-25 mb-5" placeholder="Search.."/>
           <div className="d-flex  align-items-center justify-content-between mb-5">
               <h1 className="post-text">Questions</h1>
-              <button className="btn btn-primary" onClick={handleCreateQuestion}>Create</button>
+              <button className="btn btn-primary" onClick={handleCreateQuestion}>Create <FontAwesomeIcon icon={faPlus}/></button>
           </div>
           <Row>
               {allPosts.map((post) => (
