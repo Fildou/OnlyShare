@@ -10,9 +10,9 @@ function Footer() {
             <div className="container">
                 <div className="row">
                     <div className="d-flex justify-content-center mb-2">
-                        <FontAwesomeIcon icon={faInstagram} size="2xl" className="mx-2"/>
+                        <Link className="link-edit footer-link" to="https://www.instagram.com/alkoholici_sro/"> <FontAwesomeIcon icon={faInstagram} size="2xl" className="mx-2"/> </Link>
                         <FontAwesomeIcon icon={faFacebook} size="2xl" className="mx-2"/>
-                        <FontAwesomeIcon icon={faDiscord} size="2xl" className="mx-2"/>
+                        <Link className="link-edit footer-link" to="https://discord.gg/br7RVWnD"><FontAwesomeIcon icon={faDiscord} size="2xl" className="mx-2"/></Link>
                     </div>
                 </div>
                 <div className="d-flex justify-content-center mt-2">
