@@ -9,3 +9,8 @@
 .logo-text {
     color: #59CBE8;
 }
+
+.logo-text:hover {
+    color: #59CBE8;
+    text-decoration: none;
+}

@@ -62,6 +62,7 @@ function NavMenu() {
           <NavbarBrand tag={Link} style={{ textDecoration: 'none' }} to="/">
             <i><img src={OnlyShareLogo} alt="logo" className="logo"/></i>
             <span className="mx-2 logo-text">Onlyshare </span>
+            <Link className="logo-text" to="/questions">Posts</Link>
           </NavbarBrand>
           <Nav>
             { !isLoggedIn &&(
@@ -88,7 +89,6 @@ function NavMenu() {
                <button onClick={handleLogout} className="btn btn-outline-warning mx-2">Logout <FontAwesomeIcon icon={faRightFromBracket} /></button>
              </>   
             )}
-
           </Nav>
         </Navbar>
 
