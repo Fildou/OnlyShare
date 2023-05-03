@@ -7,6 +7,8 @@ import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+
 
 function UserQuestions() {
     const [questions, setQuestions] = useState([]);
@@ -32,24 +34,35 @@ function UserQuestions() {
     }, []);
 
     const handleDelete = async (id) => {
-        if (window.confirm("Are you sure you want to delete this question?")) {
-            try {
-                const response = await axios.delete(`/api/questions/${id}`, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-                });
-                if (!response.data.success) {
-                    throw new Error(response.data.message);
-                }
-                setQuestions((prevQuestions) => prevQuestions.filter((q) => q.id !== id));
-                toast.success("DELETED");
-            } catch (error) {
-                setTimeout(() => {
-                    window.location.reload();
-                  }, 1000);
-                toast.success("Deleted");
-            }
+      const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this question!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      });
+    
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.delete(`/api/questions/${id}`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          });
+          if (!response.data.success) {
+            throw new Error(response.data.message);
+          }
+          setQuestions((prevQuestions) => prevQuestions.filter((q) => q.id !== id));
+          toast.success("DELETED");
+        } catch (error) {
+          setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          toast.success("Deleted");
         }
+      }
     };
+    
     
     if (error) {
         return <div>{error}</div>;
@@ -63,6 +76,8 @@ function UserQuestions() {
             day: "numeric",
         });
     };
+
+    
 
     return (
         <div>
