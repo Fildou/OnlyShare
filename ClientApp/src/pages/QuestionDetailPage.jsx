@@ -17,6 +17,7 @@
   import "react-toastify/dist/ReactToastify.css";
   import { useNavigate, useParams, Link } from "react-router-dom";
   import "./QuestionDetailPage.css";
+  import { useAuth } from "../middleware/authContext";
 import CommentComponent from "../components/main/comment";
 
 
@@ -29,6 +30,7 @@ import CommentComponent from "../components/main/comment";
     const [content, setContent] = useState("");
     const [contentError, setContentError] = useState("");
     const navigate = useNavigate();
+    const { isLoggedIn, toggleLogin, user } = useAuth();
 
     const handleSave = async (e) => {
       
@@ -136,7 +138,10 @@ import CommentComponent from "../components/main/comment";
                 <CardText className="card-text capitalize-text">{post.description}</CardText>
               </CardBody>
             </Card>
-            <FormGroup className="mt-5">
+            {
+              isLoggedIn && (
+                <>
+                            <FormGroup className="mt-5">
               <Label for="content">Your answer</Label>
               <Input
                   name="content"
@@ -149,6 +154,10 @@ import CommentComponent from "../components/main/comment";
                 Post your answer
               </button>
             </FormGroup>
+                </>
+              )
+            }
+
           </Form>
         </div>
         <div className="mt-5">
