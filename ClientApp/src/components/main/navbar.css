@@ -8,6 +8,7 @@
 }
 .logo-text {
     color: #59CBE8;
+    text-decoration: none;
 }
 
 .logo-text:hover {
