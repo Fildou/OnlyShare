@@ -68,7 +68,7 @@ const ResetPasswordPage = () => {
     <div className="reset-password-page">
       <ToastContainer />
       <h2>Reset Password</h2>
-      <form onSubmit={handleSubmit}>
+      <form className="" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>New Password:</label>
           <input
