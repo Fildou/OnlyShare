@@ -34,30 +34,28 @@ namespace OnlyShare.Database.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<UserReaction?> GetUserReactionAsync(Guid userId, Guid targetUserId)
+        public async Task<UserReaction?> GetReactionAsync(Guid reactingUserId, Guid targetUserId)
         {
-            return await _context.UserReactions.FirstOrDefaultAsync(reaction => reaction.UserId == userId && reaction.TargetUserId == targetUserId);
+            return await _context.UserReactions.FirstOrDefaultAsync(
+                ur => ur.ReactedUserId == reactingUserId && ur.UserId == targetUserId);
         }
 
-        public async Task AddOrUpdateUserReactionAsync(UserReaction userReaction)
+        public async Task AddReactionAsync(UserReaction reaction)
         {
-            var existingReaction = await GetUserReactionAsync(userReaction.UserId, userReaction.TargetUserId);
-            if (existingReaction == null)
-            {
-                _context.UserReactions.Add(userReaction);
-            }
-            else
-            {
-                existingReaction.IsLike = userReaction.IsLike;
-            }
+            await _context.UserReactions.AddAsync(reaction);
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveUserReactionAsync(UserReaction userReaction)
+        public async Task UpdateReactionAsync(UserReaction reaction)
         {
-            _context.UserReactions.Remove(userReaction);
+            _context.UserReactions.Update(reaction);
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteReactionAsync(UserReaction reaction)
+        {
+            _context.UserReactions.Remove(reaction);
+            await _context.SaveChangesAsync();
+        }
     }
 }

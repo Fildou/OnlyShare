@@ -1,4 +1,10 @@
 .smiley-avatar {
     width: 100px;
     height: 100px;
-  }
+}
+
+.pressed {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}

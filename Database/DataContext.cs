@@ -21,5 +21,5 @@ public class DataContext : DbContext
     public DbSet<Question> Questions { get; set; } = default!;
     public DbSet<Comment> Comments { get; set; } = default!;
     public DbSet<User> Users => Set<User>();
-    public DbSet<UserReaction> UserReactions { get; set; }
+    public DbSet<UserReaction> UserReactions { get; set; } = default!;
 }

@@ -12,8 +12,8 @@ using OnlyShare.Database;
 namespace OnlyShare.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230428074117_userReaction Added")]
-    partial class userReactionAdded
+    [Migration("20230504155141_UserReaction")]
+    partial class UserReaction
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,9 +83,15 @@ namespace OnlyShare.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Dislikes")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
@@ -96,10 +102,6 @@ namespace OnlyShare.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("ProfileInfo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProfilePictureUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -118,11 +120,11 @@ namespace OnlyShare.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsLike")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("TargetUserId")
+                    b.Property<Guid>("ReactedUserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ReactionType")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
