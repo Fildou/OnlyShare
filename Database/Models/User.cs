@@ -14,6 +14,9 @@
 
         public string ProfileInfo { get; set; } = string.Empty;
 
-        public string ProfilePictureUrl { get; set; } = string.Empty;
+        public int Likes { get; set; }
+
+        public int Dislikes { get; set; }
+
     }
 }
