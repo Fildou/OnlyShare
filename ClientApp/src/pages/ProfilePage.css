@@ -1,10 +1,118 @@
 .smiley-avatar {
     width: 100px;
     height: 100px;
-}
-
-.pressed {
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+  
+  .pressed {
     background-color: #007bff;
     color: white;
     border-color: #007bff;
+    border: 2px solid #59CBE8;
+    box-sizing: border-box;
+    outline: none;
+  }
+  
+  .profile_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    background-color: white;
+    font-family: SansSerif;
+    border-radius: 30px;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+  
+  .profile_title {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .profile_info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile_button {
+    margin: 5px;
+    border: 1px solid #007bff;
+    background-color: white;
+    color: #007bff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .profile_button:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .edit_button {
+    background-color: #f0ad4e;
+    border-color: #f0ad4e;
+    color: white;
+  }
+  
+  .edit_button:hover {
+    background-color: #ec971f;
+  }
+  
+  .save_button {
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+    color: white;
+  }
+  
+  .save_button:hover {
+    background-color: #449d44;
+  }
+  
+  .cancel_button {
+    background-color: #d9534f;
+    border-color: #d9534f;
+    color: white;
+  }
+  
+  .cancel_button:hover {
+    background-color: #c9302c;
+  }
+  
+  .like_button {
+    background-color: #5bc0de;
+    border-color: #5bc0de;
+    color: white;
+  }
+  
+  .dislike_button {
+    background-color: #f0ad4e;
+    border-color: #f0ad4e;
+    color: white;
+  }
+  
+  .profile_button svg {
+    margin-right: 5px;
+  }
+  
+  .reactions {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .posts-heading {
+    margin-bottom: 2rem;
+    margin-right: 35%;
+    text-align: center;
 }
