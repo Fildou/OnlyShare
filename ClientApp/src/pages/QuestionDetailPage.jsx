@@ -21,6 +21,7 @@
   import CommentComponent from "../components/main/comment";
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
   import { faComment } from '@fortawesome/free-solid-svg-icons';
+  import Swal from 'sweetalert2';
 
   const QuestionDetailPage = () => {
     const { postId } = useParams();
@@ -38,7 +39,24 @@
       e.preventDefault();
 
       // setContentError(validateField(content));
-
+      
+      if (!isLoggedIn)
+      {
+        Swal.fire({
+          icon: "warning",
+          title: 'LOGIN...',
+          text: 'You need to be logged in to comment!',
+          confirmButtonText: "Log in",
+          cancelButtonText: "Cancel",
+          showCancelButton: true,
+        }).then ((result) => {
+          if(result.isConfirmed) {
+            navigate("/login");
+          }
+        });
+        return;
+      }
+      
       if(content){
         try{
           const token = localStorage.getItem("token");
@@ -139,10 +157,7 @@
                 <CardText className="card-text capitalize-text">{post.description}</CardText>
               </CardBody>
             </Card>
-            {
-              isLoggedIn && (
-                <>
-                            <FormGroup className="mt-5">
+              <FormGroup className="mt-5">
               <Label for="content">Your answer <FontAwesomeIcon icon={faComment} /></Label>
               <Input
                   name="content"
@@ -155,10 +170,6 @@
                 Post your answer
               </button>
             </FormGroup>
-                </>
-              )
-            }
-
           </Form>
         </div>
         <div className="mt-5">
