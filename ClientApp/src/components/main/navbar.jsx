@@ -20,6 +20,7 @@ import {faRightToBracket, faRightFromBracket, faUserPlus, faUser, faAddressCard,
 
 function NavMenu() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  let username = "";
   const { isLoggedIn, toggleLogin, user } = useAuth();
   const navigate = useNavigate();
 
@@ -44,6 +45,12 @@ function NavMenu() {
       navigate("/login");
     }
   };
+  
+  const token =localStorage.getItem("token");
+  if (token){
+    const decoded = jwt_decode(token);
+    username = decoded.unique_name;
+  }
   
   const handleProfile = () => {
     const token = localStorage.getItem("token");
@@ -73,7 +80,7 @@ function NavMenu() {
             )}
             {isLoggedIn && (
              <>
-               <button onClick={handleProfile} className="btn btn-outline-info" style={{ textDecoration: 'none' }}>Profile <FontAwesomeIcon icon={faUser} /></button>
+               <button onClick={handleProfile} className="btn btn-outline-info" style={{ textDecoration: 'none' }}>{username} <FontAwesomeIcon icon={faUser} /></button>
                <button onClick={handleLogout} className="btn btn-outline-warning mx-2">Logout <FontAwesomeIcon icon={faRightFromBracket} /></button>
              </>   
             )}
