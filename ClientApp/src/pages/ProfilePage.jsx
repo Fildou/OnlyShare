@@ -202,11 +202,10 @@ const formatDate = (dateString) => {
             <>
               {!editing && <button className="profile_button edit_button" onClick={() => setEditing(true)}><FontAwesomeIcon icon={faEdit} /> Edit Profile</button>}
               {editing && (
-                <form className="form-edit-update">
-                  <label className="form-label">
+                <label>
+                  <label>
                     Update profile info:
                     <input
-                      className="form-control"
                       type="text"
                       value={profileInfo}
                       onChange={(e) => setProfileInfo(e.target.value)}
@@ -214,7 +213,7 @@ const formatDate = (dateString) => {
                   </label>
                   <button className="profile_button save_button" onClick={handleUpdateProfile}><FontAwesomeIcon icon={faSave} /> Save</button>
                   <button className="profile_button cancel_button" onClick={() => setEditing(false)}><FontAwesomeIcon icon={faTimes} /> Cancel</button>
-                </form>
+                </label>
               )}
             </>
           )}

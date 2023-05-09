@@ -1,10 +1,8 @@
 import React from "react";
 import { Card, CardBody, CardSubtitle, CardText, CardTitle, CardLink } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
+import { faUser ,faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 import "./comment.css";
-import {faUser} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"; 
 
 const CommentComponent = ({ title, text, date, username, likes, dislikes, onLike, onDislike }) => {
   return (
