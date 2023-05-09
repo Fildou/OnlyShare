@@ -49,6 +49,8 @@
           confirmButtonText: "Log in",
           cancelButtonText: "Cancel",
           showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
         }).then ((result) => {
           if(result.isConfirmed) {
             navigate("/login");
@@ -97,6 +99,7 @@
             icon: "error",
             title: 'Oops...',
             text: 'You cannot add more comments',
+            confirmButtonColor: '#3085d6',
           })
         }
         }
