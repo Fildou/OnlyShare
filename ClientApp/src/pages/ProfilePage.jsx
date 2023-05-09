@@ -185,8 +185,9 @@ const formatDate = (dateString) => {
       <div className="profile_content">
         <h1 className="profile_title">{profile.username}</h1>
         <img src={smileyAvatar} alt="Smiley Avatar" className="smiley-avatar" />
+        <p className="info_header">Info: </p>
         <div className="profile_info">
-          <p>Info: {profileInfo}</p>
+          <p>{profileInfo}</p>
           {isOwner && (
             <>
               {!editing && <button className="profile_button edit_button" onClick={() => setEditing(true)}><FontAwesomeIcon icon={faEdit} /> Edit Profile</button>}
@@ -229,7 +230,7 @@ const formatDate = (dateString) => {
       {isOwner && (
         <div>
           <Container>
-            <h1 className="posts-heading">My posts</h1>
+            <h1 className="posts-heading d-flex">My posts</h1>
               <Row>
                 {questions.map((post) => (
                   <Col key={post.id} md="12" className="mb-4">

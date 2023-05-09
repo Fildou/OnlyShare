@@ -1,8 +1,9 @@
 .smiley-avatar {
-    width: 100px;
-    height: 100px;
+    width: 10%;
+    height: 10%;
     border-radius: 50%;
     margin-bottom: 20px;
+    margin-left: -85%;
   }
   
   .pressed {
@@ -27,11 +28,19 @@
   }
   
   .profile_title {
+    margin-left: -85%;
     font-size: 48px;
+    font-family: SansSerif;
     font-weight: bold;
     margin-bottom: 20px;
   }
-  
+  .info_header {
+    margin-left: -85%;
+    font-size: 25px;
+    font-family: SansSerif;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
   .profile_info {
     display: flex;
     flex-direction: column;
@@ -112,7 +121,11 @@
   }
 
   .posts-heading {
+    color: #5bc0de;
+    font-family: SansSerif;
+    font-size: 40px;
     margin-bottom: 2rem;
-    margin-right: 35%;
+    margin-right:  78%;
     text-align: center;
+    margin-left: -29%;
 }
