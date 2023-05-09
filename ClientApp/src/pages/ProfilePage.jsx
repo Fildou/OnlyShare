@@ -191,10 +191,11 @@ const formatDate = (dateString) => {
             <>
               {!editing && <button className="profile_button edit_button" onClick={() => setEditing(true)}><FontAwesomeIcon icon={faEdit} /> Edit Profile</button>}
               {editing && (
-                <div>
-                  <label>
-                    Update Profile Info:
+                <form className="form-edit-update">
+                  <label className="form-label">
+                    Update profile info:
                     <input
+                      className="form-control"
                       type="text"
                       value={profileInfo}
                       onChange={(e) => setProfileInfo(e.target.value)}
@@ -202,7 +203,7 @@ const formatDate = (dateString) => {
                   </label>
                   <button className="profile_button save_button" onClick={handleUpdateProfile}><FontAwesomeIcon icon={faSave} /> Save</button>
                   <button className="profile_button cancel_button" onClick={() => setEditing(false)}><FontAwesomeIcon icon={faTimes} /> Cancel</button>
-                </div>
+                </form>
               )}
             </>
           )}
@@ -222,9 +223,11 @@ const formatDate = (dateString) => {
               </button>
             </div>
           )}
-          <p>Likes: {profile.likes}</p>
-          <p>Dislikes: {profile.dislikes}</p>
         </div>
+          <div className="mt-2">
+              <p><FontAwesomeIcon className="color-thumb" icon={faThumbsUp} /> <span className="mx-2">{profile.likes}</span></p>
+              <p> <FontAwesomeIcon className="color-thumb-dis" icon={faThumbsDown} />  <span className="mx-2">{profile.dislikes}</span></p>
+          </div>
       </div>
       {isOwner && (
         <div>
