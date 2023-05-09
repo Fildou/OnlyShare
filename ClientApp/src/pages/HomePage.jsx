@@ -16,6 +16,7 @@ const HomePage = () => {
     const posts = [];
     const [searchQuery, setSearchQuery] = useState("");
 
+
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
@@ -59,7 +60,7 @@ const HomePage = () => {
 
     return (
         <Container>
-            <input className="form-check-input w-100 h-25 mb-5" placeholder="Search.." value={searchQuery} onChange={handleSearchInputChange} />
+            <input className="form-control w-100 h-25 mb-5" placeholder="Search.." value={searchQuery} onChange={handleSearchInputChange} />
             <div className="d-flex  align-items-center justify-content-between mb-5">
                 <h1 className="post-text">Questions</h1>
                 <button className="btn btn-primary" onClick={handleCreateQuestion}>

@@ -17,8 +17,11 @@
   import "react-toastify/dist/ReactToastify.css";
   import { useNavigate, useParams, Link } from "react-router-dom";
   import "./QuestionDetailPage.css";
-import CommentComponent from "../components/main/comment";
-
+  import { useAuth } from "../middleware/authContext";
+  import CommentComponent from "../components/main/comment";
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  import { faComment } from '@fortawesome/free-solid-svg-icons';
+  import Swal from 'sweetalert2';
 
   const QuestionDetailPage = () => {
     const { postId } = useParams();
@@ -29,13 +32,33 @@ import CommentComponent from "../components/main/comment";
     const [content, setContent] = useState("");
     const [contentError, setContentError] = useState("");
     const navigate = useNavigate();
+    const { isLoggedIn, toggleLogin, user } = useAuth();
 
     const handleSave = async (e) => {
       
       e.preventDefault();
 
       // setContentError(validateField(content));
-
+      
+      if (!isLoggedIn)
+      {
+        Swal.fire({
+          icon: "warning",
+          title: 'LOGIN...',
+          text: 'You need to be logged in to comment!',
+          confirmButtonText: "Log in",
+          cancelButtonText: "Cancel",
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+        }).then ((result) => {
+          if(result.isConfirmed) {
+            navigate("/login");
+          }
+        });
+        return;
+      }
+      
       if(content){
         try{
           const token = localStorage.getItem("token");
@@ -72,7 +95,12 @@ import CommentComponent from "../components/main/comment";
 
         } catch (error) {
           console.error(error);
-          toast.error("An error occurred while creating the comment.");
+          Swal.fire({
+            icon: "error",
+            title: 'Oops...',
+            text: 'You cannot add more comments',
+            confirmButtonColor: '#3085d6',
+          })
         }
         }
       };
@@ -136,8 +164,8 @@ import CommentComponent from "../components/main/comment";
                 <CardText className="card-text capitalize-text">{post.description}</CardText>
               </CardBody>
             </Card>
-            <FormGroup className="mt-5">
-              <Label for="content">Your answer</Label>
+              <FormGroup className="mt-5">
+              <Label for="content">Your answer <FontAwesomeIcon icon={faComment} /></Label>
               <Input
                   name="content"
                   id="content"

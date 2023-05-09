@@ -51,11 +51,11 @@ const ForgotPasswordPage = () => {
   return (
     <div className="forgot-password-page">
       <ToastContainer />
-      <h2 className="reset-password-text mb-3">Reset password</h2>
       <form onSubmit={handleSubmit}>
+        <h2 className="reset-password-text mb-3">Reset password</h2>
         <div className="form-group">
           <label>Email:</label>
-          <input
+          <input className="form-control"
             type="email"
             name="email"
             value={inputs.email}

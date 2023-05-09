@@ -46,13 +46,13 @@ const RegisterPage = () => {
     };
 
     return (
-        <div className="register-page">
+        <div className="register-page d-flex">
             <ToastContainer />
+            <form className="form" onSubmit={handleSubmit}>
             <h2 className="register-text mb-3">Create account</h2>
-            <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>UserName:</label>
-                    <input
+                    <input className="form-control"
                         type="text"
                         name="username"
                         value={inputs.username}
@@ -62,7 +62,7 @@ const RegisterPage = () => {
                 </div>
                 <div className="form-group">
                     <label>Email:</label>
-                    <input
+                    <input className="form-control"
                         type="email"
                         name="email"
                         value={inputs.email}
@@ -72,7 +72,7 @@ const RegisterPage = () => {
                 </div>
                 <div className="form-group">
                     <label>Password:</label>
-                    <input
+                    <input className="form-control"
                         type="password"
                         name="password"
                         value={inputs.password}
@@ -82,7 +82,7 @@ const RegisterPage = () => {
                 </div>
                 <div className="form-group">
                     <label>Repeat Password:</label>
-                    <input
+                    <input className="form-control"
                         type="password"
                         name="passwordRepeat"
                         value={inputs.passwordRepeat}
