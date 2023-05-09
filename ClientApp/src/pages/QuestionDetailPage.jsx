@@ -18,8 +18,9 @@
   import { useNavigate, useParams, Link } from "react-router-dom";
   import "./QuestionDetailPage.css";
   import { useAuth } from "../middleware/authContext";
-import CommentComponent from "../components/main/comment";
-
+  import CommentComponent from "../components/main/comment";
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  import { faComment } from '@fortawesome/free-solid-svg-icons';
 
   const QuestionDetailPage = () => {
     const { postId } = useParams();
@@ -142,7 +143,7 @@ import CommentComponent from "../components/main/comment";
               isLoggedIn && (
                 <>
                             <FormGroup className="mt-5">
-              <Label for="content">Your answer</Label>
+              <Label for="content">Your answer <FontAwesomeIcon icon={faComment} /></Label>
               <Input
                   name="content"
                   id="content"
