@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardBody, CardSubtitle, CardText, CardTitle, CardLink } from "reactstrap";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"; 
 
 const CommentComponent = ({ title, text, date,  username}) => {
   return (
