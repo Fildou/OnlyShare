@@ -26,7 +26,6 @@ const AppRouter = () => {
                         <Route path="/questions" element={<HomePage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/createQuestion" element={<CreateQuestion />} />
-                        <Route path="/UserQuestions" element={<UserQuestions />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/post/:postId" element={<QuestionDetailPage />} />

@@ -73,19 +73,7 @@ function NavMenu() {
             )}
             {isLoggedIn && (
              <>
-               <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-                 <DropdownToggle caret color="outline-info" style={{ textDecoration: 'none' }}>
-                   Account <FontAwesomeIcon icon={faUser} />
-                 </DropdownToggle>
-                 <DropdownMenu>
-                   <DropdownItem onClick={handleProfile}>
-                     <Link style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faAddressCard} /> Profile</Link>
-                   </DropdownItem>
-                   <DropdownItem>
-                     <Link to="/UserQuestions" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faList} /> My questions</Link>
-                   </DropdownItem>
-                 </DropdownMenu>
-               </Dropdown>
+               <button onClick={handleProfile} className="btn btn-outline-info" style={{ textDecoration: 'none' }}>Profile <FontAwesomeIcon icon={faUser} /></button>
                <button onClick={handleLogout} className="btn btn-outline-warning mx-2">Logout <FontAwesomeIcon icon={faRightFromBracket} /></button>
              </>   
             )}

@@ -102,7 +102,8 @@ public class AccountController : ControllerBase
             Subject = new ClaimsIdentity(new[]
             {
             new Claim("id", user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Email)
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Name, user.Username)
         }),
             Expires = DateTime.UtcNow.AddDays(7),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -140,7 +141,8 @@ public class AccountController : ControllerBase
             Subject = new ClaimsIdentity(new[]
             {
             new Claim("id", user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Email)
+            new Claim(ClaimTypes.Name, user.Email),
+            new Claim(ClaimTypes.Name, user.Username)
         }),
             Expires = DateTime.UtcNow.AddHours(1), // Set the expiration time for the reset token
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

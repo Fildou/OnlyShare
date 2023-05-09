@@ -3,6 +3,15 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import smileyAvatar from '../resources/smiley.png';
 import './ProfilePage.css';
+import CardComponent from "../components/main/card";
+import "./UserQuestion.css";
+import "../components/main/card.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faThumbsDown, faEdit, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {Link, useNavigate} from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Button, Col, Container, Row } from "reactstrap";
 
 const ProfilePage = () => {
   const { userId } = useParams();
@@ -13,6 +22,9 @@ const ProfilePage = () => {
   const [likePressed, setLikePressed] = useState(false);
   const [dislikePressed, setDislikePressed] = useState(false)
   const [reactions, setReactions] = useState({});;
+  const [questions, setQuestions] = useState([]);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -61,6 +73,24 @@ const ProfilePage = () => {
   useEffect(() => {
     localStorage.setItem("reactions", JSON.stringify(reactions));
   }, [reactions]);
+
+  useEffect(() => {
+    async function fetchQuestions() {
+        try {
+            const response = await fetch("/api/questions/getQuestionsByUserId", {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            });
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            const data = await response.json();
+            setQuestions(data);
+        } catch (error) {
+            setError(error.message);
+        }
+    }
+    fetchQuestions();
+}, []);
 
   const handleUpdateProfile = async () => {
     try {
@@ -115,52 +145,110 @@ const ProfilePage = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this question?")) {
+        try {
+            const response = await axios.delete(`/api/questions/${id}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            });
+            if (!response.data.success) {
+                throw new Error(response.data.message);
+            }
+            setQuestions((prevQuestions) => prevQuestions.filter((q) => q.id !== id));
+            toast.success("DELETED");
+        } catch (error) {
+            setTimeout(() => {
+                window.location.reload();
+              }, 1000);
+            toast.success("Deleted");
+        }
+    }
+};
+
+if (error) {
+    return <div>{error}</div>;
+}
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    });
+};
+
   if (!profile) return <div>Loading...</div>;
 
   return (
     <div>
-      <h1>{profile.username}</h1>
-      <img src={smileyAvatar} alt="Smiley Avatar" className="smiley-avatar" />
-      <div>
-        <p>Info: {profileInfo}</p>
-        {isOwner && (
-          <>
-            {!editing && <button onClick={() => setEditing(true)}>Edit Profile</button>}
-            {editing && (
-              <div>
-                <label>
-                  Update Profile Info:
-                  <input
-                    type="text"
-                    value={profileInfo}
-                    onChange={(e) => setProfileInfo(e.target.value)}
-                  />
-                </label>
-                <button onClick={handleUpdateProfile}>Save</button>
-                <button onClick={() => setEditing(false)}>Cancel</button>
-              </div>
-            )}
-          </>
-        )}
-        {!isOwner && (
-          <div>
-            <button
-              className={likePressed ? "pressed" : ""}
-              onClick={() => handleReaction("like")}
-            >
-              Like
-            </button>
-            <button
-              className={dislikePressed ? "pressed" : ""}
-              onClick={() => handleReaction("dislike")}
-            >
-              Dislike
-            </button>
-          </div>
-        )}
-        <p>Likes: {profile.likes}</p>
-        <p>Dislikes: {profile.dislikes}</p>
+      <div className="profile_content">
+        <h1 className="profile_title">{profile.username}</h1>
+        <img src={smileyAvatar} alt="Smiley Avatar" className="smiley-avatar" />
+        <div className="profile_info">
+          <p>Info: {profileInfo}</p>
+          {isOwner && (
+            <>
+              {!editing && <button className="profile_button edit_button" onClick={() => setEditing(true)}><FontAwesomeIcon icon={faEdit} /> Edit Profile</button>}
+              {editing && (
+                <div>
+                  <label>
+                    Update Profile Info:
+                    <input
+                      type="text"
+                      value={profileInfo}
+                      onChange={(e) => setProfileInfo(e.target.value)}
+                    />
+                  </label>
+                  <button className="profile_button save_button" onClick={handleUpdateProfile}><FontAwesomeIcon icon={faSave} /> Save</button>
+                  <button className="profile_button cancel_button" onClick={() => setEditing(false)}><FontAwesomeIcon icon={faTimes} /> Cancel</button>
+                </div>
+              )}
+            </>
+          )}
+          {!isOwner && (
+            <div className="reactions">
+              <button
+                className={`profile_button like_button${likePressed ? " pressed" : ""}`}
+                onClick={() => handleReaction("like")}
+              >
+                <FontAwesomeIcon icon={faThumbsUp} /> Like
+              </button>
+              <button
+                className={`profile_button dislike_button${dislikePressed ? " pressed" : ""}`}
+                onClick={() => handleReaction("dislike")}
+              >
+                <FontAwesomeIcon icon={faThumbsDown} /> Dislike
+              </button>
+            </div>
+          )}
+          <p>Likes: {profile.likes}</p>
+          <p>Dislikes: {profile.dislikes}</p>
+        </div>
       </div>
+      {isOwner && (
+        <div>
+          <Container>
+            <h1 className="posts-heading">My posts</h1>
+              <Row>
+                {questions.map((post) => (
+                  <Col key={post.id} md="12" className="mb-4">
+                    <CardComponent
+                      title={post.title}
+                      username={post.createdByUserName}
+                      text={post.text || post.description}
+                      date={formatDate(post.date || post.createdAt)}
+                      postId={post.id}
+                    />
+                    <Button color="danger" onClick={() => handleDelete(post.id)}>Delete</Button>
+                    <Button  href={`/postEdit/${post.id}`} color="primary" >Edit</Button>
+                  </Col>
+                ))}
+            </Row>
+            <ToastContainer />
+          </Container>
+        </div>
+      )}
     </div>
   );
 };
