@@ -93,7 +93,11 @@
 
         } catch (error) {
           console.error(error);
-          toast.error("An error occurred while creating the comment.");
+          Swal.fire({
+            icon: "error",
+            title: 'Oops...',
+            text: 'You cannot add more comments',
+          })
         }
         }
       };
