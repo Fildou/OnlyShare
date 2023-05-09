@@ -12,6 +12,7 @@ import {Link, useNavigate} from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Col, Container, Row } from "reactstrap";
+import Swal from "sweetalert2";
 
 const ProfilePage = () => {
   const { userId } = useParams();
@@ -145,25 +146,35 @@ const ProfilePage = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this question?")) {
-        try {
-            const response = await axios.delete(`/api/questions/${id}`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-            });
-            if (!response.data.success) {
-                throw new Error(response.data.message);
+    const handleDelete = async (id) => {
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this question!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                const response = await axios.delete(`/api/questions/${id}`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                });
+                if (!response.data.success) {
+                    throw new Error(response.data.message);
+                }
+                setQuestions((prevQuestions) => prevQuestions.filter((q) => q.id !== id));
+                toast.success("DELETED");
+            } catch (error) {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+                toast.success("Deleted");
             }
-            setQuestions((prevQuestions) => prevQuestions.filter((q) => q.id !== id));
-            toast.success("DELETED");
-        } catch (error) {
-            setTimeout(() => {
-                window.location.reload();
-              }, 1000);
-            toast.success("Deleted");
         }
-    }
-};
+    };
 
 if (error) {
     return <div>{error}</div>;
@@ -232,7 +243,7 @@ const formatDate = (dateString) => {
       {isOwner && (
         <div>
           <Container>
-            <h1 className="posts-heading">My posts</h1>
+            <h1 className="posts-heading">My questions</h1>
               <Row>
                 {questions.map((post) => (
                   <Col key={post.id} md="12" className="mb-4">
