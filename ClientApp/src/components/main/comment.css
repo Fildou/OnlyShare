@@ -31,3 +31,35 @@
   display: block;
   margin-top: 1rem;
 }
+
+.reactions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.reaction-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 8px;
+  transition: background-color 0.2s;
+}
+
+.reaction-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.reaction-button:active {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.like-button {
+  color: #1888ff;
+  margin-right: 10px;
+}
+
+.dislike-button {
+  color: #ff4a4a;
+}

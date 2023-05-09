@@ -153,7 +153,9 @@ public class CommentController : ControllerBase
             // Save the updated counts
             await _commentRepository.UpdateCommentAsync(targetComment);
 
-            return Ok("Reaction updated successfully");
+            // Return the updated comment with the current user's reaction
+            var updatedComment = await _commentRepository.GetCommentReactionAsync(commentId, guid);
+            return Ok(updatedComment);
         }
 
         return BadRequest("Invalid user ID");

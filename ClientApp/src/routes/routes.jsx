@@ -12,7 +12,6 @@ import ProfilePage from "../pages/ProfilePage";
 
 import { Layout } from "../components/main/layout";
 import { AuthProvider } from "../middleware/authContext";
-import UserQuestions from "../pages/UserQuestions";
 import EditQuestion from "../pages/EditQuestion";
 import MainPage from "../pages/MainPage";
 
