@@ -57,12 +57,13 @@ const LoginPage = () => {
 
   return (
     <div className="login-page">
-      <ToastContainer />
-      <h2 className="login-text mb-3 d-flex">Sign in</h2>
-      <form className="d-flex justify-content-center" onSubmit={handleSubmit}>
+      <ToastContainer />    
+      <div className="d-flex justify-content-center mb-3">
+        <form className="form-style" onSubmit={handleSubmit}>
+        <h2 className="mb-3 signup-text">Login</h2>
         <div className="form-group">
           <label>Email:</label>
-          <input
+          <input className="form-control"
             type="email"
             name="email"
             value={inputs.email}
@@ -72,7 +73,7 @@ const LoginPage = () => {
         </div>
         <div className="form-group">
           <label>Password:</label>
-          <input
+          <input className="form-control"
             type="password"
             name="password"
             value={inputs.password}
@@ -82,10 +83,11 @@ const LoginPage = () => {
         </div>
         {err && <div className="error">{err}</div>}
         <button className="btn btn-primary" type="submit">Login</button>
-      </form>
-      <div className="links">
+        <div className="links mt-3">
         <a className="d-flex justify-content-center" href="/forgotpassword">Forgot Password?</a>
         <a className="d-flex justify-content-center" href="/register">Register</a>
+      </div>
+      </form>
       </div>
     </div>
   );

@@ -1,17 +1,17 @@
 import React from "react";
 import { Card, CardBody, CardSubtitle, CardText, CardTitle, CardLink } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
+import { faUser ,faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 import "./comment.css";
 
 const CommentComponent = ({ title, text, date, username, likes, dislikes, onLike, onDislike }) => {
   return (
-    <Card className="card">
+    <Card className="card mt-2">
       <CardBody className="card-body">
         <div className="d-flex justify-content-between align-items-center">
           <CardTitle className="card-title">{title}</CardTitle>
           <CardSubtitle className="card-subtitle mb-2 text-muted">{date}</CardSubtitle>
-          <CardText>Answer by user: {username}</CardText>
+          <CardText><FontAwesomeIcon icon={faUser} /> {username}</CardText>
         </div>
         <CardText className="card-text">{`${text.substring(0, 100)}`}</CardText>
         <div className="reactions">
