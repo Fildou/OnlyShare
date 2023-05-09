@@ -22,4 +22,6 @@ public class DataContext : DbContext
     public DbSet<Comment> Comments { get; set; } = default!;
     public DbSet<User> Users => Set<User>();
     public DbSet<UserReaction> UserReactions { get; set; } = default!;
+
+    public DbSet <CommentReaction> CommentReactions { get; set; } = default!;
 }
