@@ -16,7 +16,7 @@ import "./navbar.css";
 import { useAuth } from "../../middleware/authContext";
 import OnlyShareLogo from "../resources/Logo.svg";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faRightToBracket, faRightFromBracket, faUserPlus, faUser, faAddressCard, faList} from '@fortawesome/free-solid-svg-icons';
+import { faBars, faRightToBracket, faRightFromBracket, faUserPlus, faUser, faAddressCard, faList} from '@fortawesome/free-solid-svg-icons';
 
 function NavMenu() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -66,12 +66,45 @@ function NavMenu() {
   return (
 
         <Navbar className="navbar-expand-sm navbar-toggleable-sm navbar-color" light>
-          <NavbarBrand tag={Link} style={{ textDecoration: 'none' }} to="/">
+          <NavbarBrand className="navbar-things" tag={Link} style={{ textDecoration: 'none' }} to="/">
             <i><img src={OnlyShareLogo} alt="logo" className="logo"/></i>
             <span className="mx-2 logo-text">Onlyshare </span>
             <Link className="logo-text" to="/questions">Posts</Link>
           </NavbarBrand>
-          <Nav>
+
+          <Dropdown className="hamburger" isOpen={dropdownOpen} toggle={toggleDropdown}>
+            <DropdownToggle color="outline-info" style={{ textDecoration: 'none' }}>
+              <FontAwesomeIcon icon={faBars} />
+            </DropdownToggle>
+            <DropdownMenu className="hamburger-menu">
+              <DropdownItem onClick={handleProfile}>
+                { !isLoggedIn &&(
+                    <>
+                      <Link className="btn btn-outline-info" to="/login" style={{ textDecoration: 'none' }}>Login <FontAwesomeIcon icon={faRightToBracket} /></Link>
+                    </>
+                )}
+                {isLoggedIn && (
+                    <>
+                      <Link className="btn btn-outline-info" onClick={handleProfile} style={{ textDecoration: 'none' }}>{username} <FontAwesomeIcon icon={faUser} /></Link>
+                    </>
+                )}
+              </DropdownItem>
+              <DropdownItem>
+                { !isLoggedIn &&(
+                    <>
+                      <Link className=" btn btn-outline-warning" to="/register" style={{ textDecoration: 'none' }}>Register <FontAwesomeIcon icon={faUserPlus} /></Link>
+                    </>
+                )}
+                {isLoggedIn && (
+                    <>
+                      <Link className=" btn btn-outline-warning" onClick={handleLogout} to="/login">Logout <FontAwesomeIcon icon={faRightFromBracket} /></Link>
+                    </>
+                )}
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          
+          <Nav className="button-group">
             { !isLoggedIn &&(
                 <>
                   <Link className="btn btn-outline-info" to="/login" style={{ textDecoration: 'none' }}>Login <FontAwesomeIcon icon={faRightToBracket} /></Link>
