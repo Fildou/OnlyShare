@@ -15,3 +15,25 @@
     color: #59CBE8;
     text-decoration: none;
 }
+
+.hamburger {
+    display: none;
+}
+
+@media screen and (max-width: 620px) {
+    .button-group {
+        display: none;
+    }
+    
+    .hamburger {
+        display: flex;
+    }
+    
+    .hamburger-menu {
+        background-color: #2c2c47;
+    }
+    
+    .navbar-things {
+        width: 80%;
+    }
+}
