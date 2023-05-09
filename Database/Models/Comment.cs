@@ -15,4 +15,8 @@ public class Comment
     public Question? Question { get; set; }
 
     public Guid QuestionId { get; set; } = Guid.NewGuid();
+
+    public int Likes { get; set; }
+
+    public int Dislikes { get; set; }
 }
