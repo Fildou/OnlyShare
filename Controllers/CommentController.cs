@@ -132,7 +132,7 @@ public class CommentController : ControllerBase
             // Create a new reaction
             var newReaction = new CommentReaction
             {
-                ReactedUserId = guid,
+                UserId = guid,
                 CommentId = commentId,
                 ReactionType = reaction.ToLower() == "like" ? ReactionType.Like : ReactionType.Dislike
             };

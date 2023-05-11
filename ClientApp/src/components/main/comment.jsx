@@ -5,6 +5,7 @@ import { faUser ,faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-ic
 import "./comment.css";
 
 const CommentComponent = ({
+  id,
   title,
   text,
   date,

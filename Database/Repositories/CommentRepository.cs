@@ -47,7 +47,7 @@ public class CommentRepository: ICommentRepository
     public async Task<CommentReaction> GetCommentReactionAsync(Guid userId, Guid commentId)
     {
         return await _context.CommentReactions
-            .FirstOrDefaultAsync(r => r.ReactedUserId == userId && r.CommentId == commentId);
+            .FirstOrDefaultAsync(r => r.UserId == userId && r.CommentId == commentId);
     }
 
     public async Task AddCommentReactionAsync(CommentReaction reaction)

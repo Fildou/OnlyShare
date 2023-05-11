@@ -30,7 +30,9 @@ namespace OnlyShare.Services.QueryService
                 CreatedAt = comment.CreatedAt,
                 CreatedByUser = _userRepository.GetUserAsync(comment.UserId)?.Result.Username,
                 QuestionId = comment.QuestionId,
-                UserId = comment.UserId
+                UserId = comment.UserId,
+                Likes = comment.Likes,
+                Dislikes = comment.Dislikes
             }).ToList();
 
             return responses;

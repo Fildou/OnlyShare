@@ -127,6 +127,8 @@
         try {
           const response = await axios.get("/api/comment");
           const commentsFiltered = [...response.data.filter(c => c.questionId === postId.toString())];
+          console.log('Fetched comments:', commentsFiltered);
+          
           setComments(commentsFiltered);
 
           commentsFiltered.forEach((comment) => {
@@ -141,8 +143,22 @@
     },[]);
 
     const handleLikeDislike = async (commentId, reaction) => {
-      if (!isLoggedIn) {
-        // Show a message asking the user to log in
+      if (!isLoggedIn)
+      {
+        Swal.fire({
+          icon: "warning",
+          title: 'LOGIN...',
+          text: 'You need to be logged in to react!',
+          confirmButtonText: "Log in",
+          cancelButtonText: "Cancel",
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+        }).then ((result) => {
+          if(result.isConfirmed) {
+            navigate("/login");
+          }
+        });
         return;
       }
 
@@ -154,9 +170,25 @@
             Authorization: `Bearer ${token}`,
           },
         };
-
-        await axios.post(`/api/comment/AddCommentReaction/${commentId}/${reaction}`, {}, config);
-
+    
+        const response = await axios.post(`/api/comment/AddCommentReaction/${commentId}/${reaction}`, {}, config);
+        console.log(response.data)
+        const updatedComment = response.data.comment;
+        const currentUserReaction = response.data.currentUserReaction;
+    
+        // Update the comment in the comments state
+        setComments((prevComments) =>
+          prevComments.map((comment) =>
+            comment.id === commentId
+              ? {
+                  ...comment,
+                  likes: updatedComment.likes,
+                  dislikes: updatedComment.dislikes,
+                  userReaction: currentUserReaction
+                }
+              : comment
+          )
+        );
       } catch (error) {
         console.error("Error adding reaction:", error);
       }

@@ -13,4 +13,8 @@ public class GetCommentResponse
     public string? CreatedByUser { get; set; }
 
     public Guid QuestionId { get; set; }
+
+    public int Likes { get; set; }
+
+    public int Dislikes { get; set; }
 }
