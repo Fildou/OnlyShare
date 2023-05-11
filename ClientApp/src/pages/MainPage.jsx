@@ -9,14 +9,14 @@ const MainPage = () => {
     
     return (
         <div>
-            <div className="logo-and-square d-flex align-items-center">
+            <div className="d-flex align-items-center">
                 <div className="square-left"></div>
-                <img src={OnlyShareLogo} alt="logo" className="d-block m-auto m" />
+                <img src={OnlyShareLogo} alt="logo" className="d-block m-auto logo-class" />
                 <div className="square-right"></div>
             </div>
             <div className="form-group mt-5">
                 <h1 className="d-flex justify-content-center text-style">ONLY SHARE</h1>
-                <p className="d-flex justify-content-center slogan-text">Share your&nbsp;<p className="d-flex justify-content-center slogan-text-highlight">knowledge</p>, elevate the&nbsp;<p className="d-flex justify-content-center slogan-text-highlight-second">community</p></p>
+                <p className="d-flex justify-content-center slogan-text">Share your <span className="d-flex justify-content-center slogan-text-highlight mx-2">knowledge</span>, elevate the <span className="d-flex justify-content-center slogan-text-highlight-second mx-2"> community</span></p>
             </div>
             <div className="row row-main-page">
                 <div className="card-main-page">
@@ -30,7 +30,7 @@ const MainPage = () => {
                     <div className="container">
                         <h4 className="main-text-title">Join community</h4>
                         <p className="main-text-paragraph">Join the OnlyShare community and tap into a wealth of knowledge and expertise</p>
-                        <Link className="btn btn btn-outline-dark main-text-link" to="/register" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faUserPlus} /> Join the community</Link>
+                        <Link className="btn btn-outline-dark main-text-link btn-respo" to="/register" style={{ textDecoration: 'none' }}><FontAwesomeIcon icon={faUserPlus} /> Join the community</Link>
                     </div>
                 </div>
             </div>
