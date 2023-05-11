@@ -128,13 +128,39 @@
           const response = await axios.get("/api/comment");
           const commentsFiltered = [...response.data.filter(c => c.questionId === postId.toString())];
           setComments(commentsFiltered);
+
+          commentsFiltered.forEach((comment) => {
+            console.log(`Comment ID: ${comment.id}`);
+          });
+    
         } catch (error) {
           console.error("Error fetching questions:", error);
         }
       };
       fetchComments();
-    }, []);
+    },[]);
 
+    const handleLikeDislike = async (commentId, reaction) => {
+      if (!isLoggedIn) {
+        // Show a message asking the user to log in
+        return;
+      }
+
+      try {
+        const token = localStorage.getItem("token");
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        await axios.post(`/api/comment/AddCommentReaction/${commentId}/${reaction}`, {}, config);
+
+      } catch (error) {
+        console.error("Error adding reaction:", error);
+      }
+    };
 
     if (!post) {
       return <div>Loading...</div>;
@@ -182,15 +208,21 @@
         <div className="mt-5">
           <h2 className="post-text">Answers</h2>
           {comments.map((comment) =>(
-              <CommentComponent
-                  title={formatDate(comment.createdAt)}
-                  text={comment.content}
-                  username={
-                    <Link to={`/profile/${comment.userId}`}>
-                      {comment.createdByUser}
-                    </Link>
-                  }
-              />
+            <CommentComponent
+              key={comment.id} // Add a key to avoid warning
+              id={comment.id} // Pass the comment ID
+              title={formatDate(comment.createdAt)}
+              text={comment.content}
+              username={
+                <Link to={`/profile/${comment.userId}`}>
+                  {comment.createdByUser}
+                </Link>
+              }
+              likes={comment.likes} // Pass the likes count
+              dislikes={comment.dislikes} // Pass the dislikes count
+              onLike={() => handleLikeDislike(comment.id, "like")}
+              onDislike={() => handleLikeDislike(comment.id, "dislike")}
+            />
           ))}
         </div>
 

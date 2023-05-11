@@ -6,10 +6,10 @@ public interface ICommentRepository
 {
     public Task<Comment> AddCommentAsync(Comment? request);
     public Task<IEnumerable<Comment>> GetAllCommentsAsync();
-    public Task<Comment?> GetCommentAsync(Guid commentId); 
+    public Task<Comment> GetCommentAsync(Guid commentId); 
     public Task UpdateCommentAsync(Comment comment); 
 
-    Task<CommentReaction?> GetCommentReactionAsync(Guid userId, Guid commentId);
+    Task<CommentReaction> GetCommentReactionAsync(Guid userId, Guid commentId);
 
     Task AddCommentReactionAsync(CommentReaction reaction);
 

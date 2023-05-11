@@ -4,7 +4,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser ,faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 import "./comment.css";
 
-const CommentComponent = ({ title, text, date, username, likes, dislikes, onLike, onDislike }) => {
+const CommentComponent = ({
+  title,
+  text,
+  date,
+  username,
+  likes = 0,
+  dislikes = 0,
+  onLike,
+  onDislike,
+}) => {
   return (
     <Card className="card mt-2">
       <CardBody className="card-body">
