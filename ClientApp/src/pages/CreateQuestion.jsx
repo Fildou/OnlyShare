@@ -92,9 +92,9 @@ const CreateQuestion = () => {
           </FormText>
         </FormGroup>
 
-        <Button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary">
           Save
-        </Button>
+        </button>
       </Form>
       <ToastContainer />
     </div>
