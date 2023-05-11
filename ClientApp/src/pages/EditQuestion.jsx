@@ -70,7 +70,7 @@ const EditQuestion = () => {
     
     return (
         <div className="container form-create">
-            <h1>Question detail</h1>
+            <h1 className="post-text">Question detail</h1>
             <Form>
                 <FormGroup>
                     <Label>Title</Label>
@@ -88,7 +88,7 @@ const EditQuestion = () => {
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 </FormGroup>
-                <Button onClick={handleSave}>SAVE</Button>
+                <button className="btn btn-primary" onClick={handleSave}>SAVE</button>
             </Form>
             <ToastContainer />
         </div>
