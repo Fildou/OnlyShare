@@ -233,24 +233,22 @@ const formatDate = (dateString) => {
         </div>
         <p className="info_header">Info: </p>
         <div className="profile_info">
-          <p>{profileInfo}</p>
+          <div
+            contentEditable={editing}
+            onBlur={(e) => setProfileInfo(e.target.innerText)}
+            suppressContentEditableWarning={true}
+          >
+            {profileInfo}
+          </div>
         </div>
         {isOwner && (
           <>
             {!editing && <button className="profile_button edit_button" onClick={() => setEditing(true)}><FontAwesomeIcon icon={faEdit} /> Edit Profile</button>}
             {editing && (
-              <label>
-                <label>
-                  Update profile info:
-                  <input
-                    type="text"
-                    value={profileInfo}
-                    onChange={(e) => setProfileInfo(e.target.value)}
-                  />
-                </label>
+              <>
                 <button className="profile_button save_button" onClick={handleUpdateProfile}><FontAwesomeIcon icon={faSave} /> Save</button>
                 <button className="profile_button cancel_button" onClick={() => setEditing(false)}><FontAwesomeIcon icon={faTimes} /> Cancel</button>
-              </label>
+              </>
             )}
           </>
         )}

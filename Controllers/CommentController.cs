@@ -88,36 +88,32 @@ public class CommentController : ControllerBase
             // Update or create a reaction
             if (existingReaction != null)
             {
-                // If the existing reaction type is the same as the new one, remove the reaction
                 if (existingReaction.ReactionType.ToString().ToLower() == reaction.ToLower())
                 {
                     await _commentRepository.DeleteCommentReactionAsync(existingReaction);
 
-                    // Decrement the appropriate count
                     if (reaction.ToLower() == "like")
                     {
-                        targetComment.Likes--;
+                        if (targetComment.Likes > 0) targetComment.Likes--;
                     }
                     else
                     {
-                        targetComment.Dislikes--;
+                        if (targetComment.Dislikes > 0) targetComment.Dislikes--;
                     }
                 }
                 else
                 {
-                    // Otherwise, update the reaction
                     existingReaction.ReactionType = reaction.ToLower() == "like" ? ReactionType.Like : ReactionType.Dislike;
                     await _commentRepository.UpdateCommentReactionAsync(existingReaction);
 
-                    // Update the appropriate counts
                     if (reaction.ToLower() == "like")
                     {
                         targetComment.Likes++;
-                        targetComment.Dislikes--;
+                        if (targetComment.Dislikes > 0) targetComment.Dislikes--;
                     }
                     else
                     {
-                        targetComment.Likes--;
+                        if (targetComment.Likes > 0) targetComment.Likes--;
                         targetComment.Dislikes++;
                     }
                 }
