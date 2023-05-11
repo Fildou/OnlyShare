@@ -10,11 +10,11 @@ public class Comment
 
     public User CreatedBy { get; set; }
 
-    public Guid UserId { get; set; } = Guid.NewGuid();
+    public Guid UserId { get; set; }
 
     public Question Question { get; set; }
 
-    public Guid QuestionId { get; set; } = Guid.NewGuid();
+    public Guid QuestionId { get; set; }
 
     public int Likes { get; set; }
 

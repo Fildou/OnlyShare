@@ -15,7 +15,18 @@ public class DataContext : DbContext
             .HasOne(q => q.CreatedBy)
             .WithMany()
             .HasForeignKey(q => q.CreatedById);
+
+        modelBuilder.Entity<CommentReaction>()
+            .HasOne(cr => cr.User)
+            .WithMany()
+            .HasForeignKey(cr => cr.UserId);
+
+        modelBuilder.Entity<CommentReaction>()
+            .HasOne(cr => cr.Comment)
+            .WithMany()
+            .HasForeignKey(cr => cr.CommentId);
     }
+
 
     public DbSet<Models.WeatherForecast> WeatherForecasts { get; set; } = default!;
     public DbSet<Question> Questions { get; set; } = default!;
