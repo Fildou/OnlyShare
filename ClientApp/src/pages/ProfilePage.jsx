@@ -196,53 +196,54 @@ const formatDate = (dateString) => {
       <div className="profile_content">
         <h1 className="profile_title">{profile.username}</h1>
         <img src={smileyAvatar} alt="Smiley Avatar" className="smiley-avatar" />
-        <div className="profile_info">
-          <p>Info: {profileInfo}</p>
-          {isOwner && (
-            <>
-              {!editing && <button className="profile_button edit_button" onClick={() => setEditing(true)}><FontAwesomeIcon icon={faEdit} /> Edit Profile</button>}
-              {editing && (
-                <label>
-                  <label>
-                    Update profile info:
-                    <input
-                      type="text"
-                      value={profileInfo}
-                      onChange={(e) => setProfileInfo(e.target.value)}
-                    />
-                  </label>
-                  <button className="profile_button save_button" onClick={handleUpdateProfile}><FontAwesomeIcon icon={faSave} /> Save</button>
-                  <button className="profile_button cancel_button" onClick={() => setEditing(false)}><FontAwesomeIcon icon={faTimes} /> Cancel</button>
-                </label>
-              )}
-            </>
-          )}
-          {!isOwner && (
-            <div className="reactions">
-              <button
-                className={`profile_button like_button${likePressed ? " pressed" : ""}`}
-                onClick={() => handleReaction("like")}
-              >
-                <FontAwesomeIcon icon={faThumbsUp} /> Like
-              </button>
-              <button
-                className={`profile_button dislike_button${dislikePressed ? " pressed" : ""}`}
-                onClick={() => handleReaction("dislike")}
-              >
-                <FontAwesomeIcon icon={faThumbsDown} /> Dislike
-              </button>
-            </div>
-          )}
+        <div className="mt-2 thumbs">
+            <p><FontAwesomeIcon className="color-thumb" icon={faThumbsUp} /> <span className="mx-2">{profile.likes}</span></p>
+            <p> <FontAwesomeIcon className="color-thumb-dis" icon={faThumbsDown} />  <span className="mx-2">{profile.dislikes}</span></p>
         </div>
-          <div className="mt-2">
-              <p><FontAwesomeIcon className="color-thumb" icon={faThumbsUp} /> <span className="mx-2">{profile.likes}</span></p>
-              <p> <FontAwesomeIcon className="color-thumb-dis" icon={faThumbsDown} />  <span className="mx-2">{profile.dislikes}</span></p>
+        <p className="info_header">Info: </p>
+        <div className="profile_info">
+          <p>{profileInfo}</p>
+        </div>
+        {isOwner && (
+          <>
+            {!editing && <button className="profile_button edit_button" onClick={() => setEditing(true)}><FontAwesomeIcon icon={faEdit} /> Edit Profile</button>}
+            {editing && (
+              <label>
+                <label>
+                  Update profile info:
+                  <input
+                    type="text"
+                    value={profileInfo}
+                    onChange={(e) => setProfileInfo(e.target.value)}
+                  />
+                </label>
+                <button className="profile_button save_button" onClick={handleUpdateProfile}><FontAwesomeIcon icon={faSave} /> Save</button>
+                <button className="profile_button cancel_button" onClick={() => setEditing(false)}><FontAwesomeIcon icon={faTimes} /> Cancel</button>
+              </label>
+            )}
+          </>
+        )}
+        {!isOwner && (
+          <div className="reactions">
+            <button
+              className={`profile_button like_button${likePressed ? " pressed" : ""}`}
+              onClick={() => handleReaction("like")}
+            >
+              <FontAwesomeIcon icon={faThumbsUp} /> Like
+            </button>
+            <button
+              className={`profile_button dislike_button${dislikePressed ? " pressed" : ""}`}
+              onClick={() => handleReaction("dislike")}
+            >
+              <FontAwesomeIcon icon={faThumbsDown} /> Dislike
+            </button>
           </div>
+        )}
       </div>
       {isOwner && (
         <div>
           <Container>
-            <h1 className="posts-heading">My questions</h1>
+            <h1 className="posts-heading d-flex">My questions</h1>
               <Row>
                 {questions.map((post) => (
                   <Col key={post.id} md="12" className="mb-4">

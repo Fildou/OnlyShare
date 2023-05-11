@@ -123,41 +123,47 @@ public class CommentController : ControllerBase
                 }
             }
             else
+                    {
+            if (reaction.ToLower() != "like" && reaction.ToLower() != "dislike")
             {
-                if (reaction.ToLower() != "like" && reaction.ToLower() != "dislike")
-                {
-                    return BadRequest("Invalid reaction type");
-                }
-
-                // Create a new reaction
-                var newReaction = new CommentReaction
-                {
-                    ReactedUserId = guid,
-                    CommentId = commentId,
-                    ReactionType = reaction.ToLower() == "like" ? ReactionType.Like : ReactionType.Dislike
-                };
-
-                await _commentRepository.AddCommentReactionAsync(newReaction);
-
-                // Increment the appropriate count
-                if (reaction.ToLower() == "like")
-                {
-                    targetComment.Likes++;
-                }
-                else
-                {
-                    targetComment.Dislikes++;
-                }
+                return BadRequest("Invalid reaction type");
             }
 
-            // Save the updated counts
-            await _commentRepository.UpdateCommentAsync(targetComment);
+            // Create a new reaction
+            var newReaction = new CommentReaction
+            {
+                ReactedUserId = guid,
+                CommentId = commentId,
+                ReactionType = reaction.ToLower() == "like" ? ReactionType.Like : ReactionType.Dislike
+            };
 
-            // Return the updated comment with the current user's reaction
-            var updatedComment = await _commentRepository.GetCommentReactionAsync(commentId, guid);
-            return Ok(updatedComment);
+            await _commentRepository.AddCommentReactionAsync(newReaction);
+
+            // Increment the appropriate count
+            if (reaction.ToLower() == "like")
+            {
+                targetComment.Likes++;
+            }
+            else
+            {
+                targetComment.Dislikes++;
+            }
         }
 
-        return BadRequest("Invalid user ID");
+        // Save the updated counts
+        await _commentRepository.UpdateCommentAsync(targetComment);
+
+        // Return the updated comment with the current user's reaction
+        var updatedComment = await _commentRepository.GetCommentAsync(commentId);
+        var currentUserReaction = await _commentRepository.GetCommentReactionAsync(guid, commentId);
+
+        return Ok(new
+        {
+            Comment = updatedComment,
+            CurrentUserReaction = currentUserReaction?.ReactionType.ToString()
+        });
     }
+
+    return BadRequest("Invalid user ID");
+}
 }
