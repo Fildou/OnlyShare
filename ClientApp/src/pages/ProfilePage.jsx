@@ -31,11 +31,13 @@ const ProfilePage = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`/api/profile?userId=${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const config = {
+          headers: {},
+        };
+        if (token) {
+          config.headers["Authorization"] = `Bearer ${token}`;
+        }
+        const response = await axios.get(`/api/profile?userId=${userId}`, config);
         console.log("Profile API response:", response);
         setProfile({
           username: response.data.username,
@@ -43,8 +45,10 @@ const ProfilePage = () => {
           likes: response.data.likes,
           dislikes: response.data.dislikes,
         });
-        setProfileInfo(response.data.profileInfo);
-        setIsOwner(userId === response.data.loggedInUserId);
+        if (token) {
+          setIsOwner(userId === response.data.loggedInUserId);
+          setProfileInfo(response.data.profileInfo);
+        }
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
@@ -76,22 +80,28 @@ const ProfilePage = () => {
   }, [reactions]);
 
   useEffect(() => {
-    async function fetchQuestions() {
-        try {
-            const response = await fetch("/api/questions/getQuestionsByUserId", {
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-            });
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
-            const data = await response.json();
-            setQuestions(data);
-        } catch (error) {
-            setError(error.message);
+    const fetchQuestions = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const response = await fetch("/api/questions/getQuestionsByUserId", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          setQuestions(data);
+        } else {
+          // If no token is present, set an empty array for the questions
+          setQuestions([]);
         }
-    }
+      } catch (error) {
+        setError(error.message);
+      }
+    };
     fetchQuestions();
-}, []);
+  }, []);
 
   const handleUpdateProfile = async () => {
     try {
@@ -112,7 +122,28 @@ const ProfilePage = () => {
   };
 
   const handleReaction = async (reaction) => {
-    const token = localStorage.getItem("token");
+    const isLoggedIn = localStorage.getItem("token");
+
+    if (!isLoggedIn)
+    {
+      Swal.fire({
+        icon: "warning",
+        title: 'LOGIN...',
+        text: 'You need to be logged in to comment!',
+        confirmButtonText: "Log in",
+        cancelButtonText: "Cancel",
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+      }).then ((result) => {
+        if(result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
+
+    const token = isLoggedIn;
     try {
       await axios.post(
         `/api/profile/AddReaction/${userId}/${reaction}`,
