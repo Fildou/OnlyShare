@@ -5,25 +5,21 @@
 .text-style {
     color: #59CBE8;
     font-size: 80px;
-    font-family: SansSerif;
 }
 
 .slogan-text {
     color: white;
     font-size: 30px;
-    font-family: SansSerif;
 }
 
 .slogan-text-highlight{
     color: #59CBE8;
     font-size: 30px;
-    font-family: SansSerif;
 }
 
 .slogan-text-highlight-second {
     color: #f0ad4e;
     font-size: 30px;
-    font-family: SansSerif;
 }
 
 .card-main-page {
@@ -46,23 +42,18 @@
 }
 
 .main-text-title {
-    font-family: SansSerif;
     font-weight: bold;
     font-size: 30px;
 }
 
 .main-text-paragraph {
-    font-family: SansSerif;
     font-size: 25px;
 }
 
 .main-text-link {
-    font-family: SansSerif;
     font-size: 25px;
     font-weight: bold;
 }
-
-
 
 .square-left {
     width: 200px;
@@ -76,4 +67,48 @@
     height: 200px;
     background: linear-gradient(to bottom right, #5bc0de 25%, transparent 45%, transparent 51%, #f0ad4e 71%);
     transform: rotate(-200deg);
+}
+
+@media screen and (max-width: 1256px) {
+    .square-left, 
+    .square-right {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .logo-class {
+        width: 80%;
+    }
+    
+    .text-style {
+        font-size: 40px;
+    }
+    
+    .slogan-text,
+    .slogan-text-highlight,
+    .slogan-text-highlight-second {
+        font-size: 17px;
+    }
+
+    .card-main-page {
+        width: 90%;
+    }
+    
+    .main-text-title {
+        font-size: 20px;
+    }
+    
+    .main-text-paragraph {
+        font-size: 18px;
+    }
+    
+    .main-text-link {
+        font-size: 18px;
+    }
+    
+    .card-main-page {
+        margin-top: 10px;
+    }
+
 }
